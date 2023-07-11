@@ -18,7 +18,7 @@ return array(
 	//网站设置，设置完后清除缓存，刷新即可
 	'APP_DUBEG'=>false,
 	'SHOW_PAGE_TRACE'=>false,
-    'SESSION_AUTO_START'=>true,
+        'SESSION_AUTO_START'=>true,
 	'HTTP_CACHE_CONTROL' => 'private,no-transform',
 	'siteloginonly' => '1' ,  //网站开启是否唯一性登录，当第二个登录会抢走。 1 开启 为空或其他都为关闭。
 	'sitesessionouttime' => '3600',      //定义SESSION过期时间，秒为单位。
