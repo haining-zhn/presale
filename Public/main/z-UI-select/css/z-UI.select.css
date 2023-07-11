@@ -1,0 +1,70 @@
+
+.zUI-list-tran{
+    width: 470px;
+    height: 260px;
+    padding: 0;
+    display:flex;
+    flex-direction:row;
+    box-sizing: border-box;
+}
+.zUI-list-tran *{
+    box-sizing: border-box;
+}
+
+.zUI-list-tran .list-box{
+    padding: 2px;
+    width:200px;height:260px;border:1px solid #ccc;
+}
+.zUI-list-tran .list-box .list-header{
+    width:196px;height:30px;line-height: 30px;border-bottom:1px solid #ccc;padding: 0;text-align: center;
+}
+.zUI-list-tran .list-tool{
+    width: 40px;
+    min-width: 40px;
+    height: 260px;
+}
+.zUI-list-tran .list-tool .list-tool-indiv{
+    width: 0;
+    height: 120px;
+    position: relative;
+    top: 50%;
+    text-align: center;
+}
+.zUI-list-tran .list-tool .list-tool-indiv>div{
+    display: flex;
+    flex-direction: column;
+    width: 40px;
+    height: 120px;
+    position: relative;
+    line-height: 30px;
+    top: -50%;
+}
+.zUI-list-tran .list-tool .list-tool-indiv>div>i{
+    display: inline-block;
+    font-size: 16px;
+    line-height: 30px;cursor: pointer;color:#0099ff;
+}
+.zUI-list-tran .list-box ul{
+    margin: 0;
+    width: 196px;height:230px;
+    display: block;
+    padding: 2px;
+    overflow: auto;
+    line-height: 22px;
+    text-align: left!important;
+    font: 14px Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.zUI-list-tran .list-box ul>li{
+    height: 32px;
+    line-height: 32px;
+    padding: 0 10px;list-style: none;
+    margin: 0;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    cursor: pointer;
+}
+.zUI-list-tran .list-box ul>li.active{
+    background-color: #0099ff;color: white;
+}

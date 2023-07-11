@@ -1,0 +1,70 @@
+
+
+#moquu_top,#moquu_wxin,#moquu_wshare {
+	z-index:2;
+	width:30px;
+	height:30px;
+	right:10px;
+	position:fixed;
+	cursor:pointer;
+	_position:absolute;
+	_bottom:auto;
+	_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)))
+}
+
+#moquu_wxin { bottom:130px; right:10px;
+}
+#moquu_wxin a {
+	background:url(../images/sbtn.png) 0 0px;
+	right:0;
+	float:left;
+	width:30px;
+	height:30px;
+	text-indent:-9999px
+}
+#moquu_wxin a:hover {
+	background:url(../images/sbtn.png) -30px -0px
+}
+#moquu_wshare {bottom:100px; right:10px;
+}
+#moquu_wshare a {
+	background:url(../images/sbtn.png) 0 -30px;
+	width:30px;
+	height:30px;
+	right:0;
+	float:left;
+	text-indent:-9999px
+}
+#moquu_wshare a:hover {
+	background:url(../images/sbtn.png) -30px -30px
+}
+
+.moquu_wxin,.moquu_wshare {
+	position:relative;
+	z-index:2
+}
+.moquu_wxin a:hover .moquu_wxinh,.moquu_wshare a:hover .moquu_wshareh {
+	display:block
+}
+.moquu_wxin .moquu_wxinh {
+	position:absolute;
+	display:none;
+	right:30px;
+	bottom:0px;
+	width:70px;
+	height:30px;
+	background:url(../images/fankui.png) 0 0 no-repeat #ff6060;
+	color:#FFF; border-radius:4px 0 0 4px;
+}
+.moquu_wshare .moquu_wshareh {
+	position:absolute;
+	display:none;
+	right:36px;
+	bottom:-85px;
+	width:100px;
+	height:120px;
+	background:url(../images/weixin.png) no-repeat
+}
+
+
+#topcontrol{background:#4c4c4c; height:30px; width:30px; border-radius:4px;}

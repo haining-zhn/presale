@@ -1,0 +1,13 @@
+*[zUI-verify]{}
+*[zUI-form]{}
+*[zUI-tip]{}
+.zUI-verify-error{background: #f3d8d8 url(../img/verify-bak.png) 50% 50% repeat;}
+.zUI-verify-error-div{
+    position:fixed; *display:inline;zoom:1;z-index:99999999;display: none;
+    background-color: white;
+    color: #3a3a3a;
+    border: 1px solid #0099ff;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+}

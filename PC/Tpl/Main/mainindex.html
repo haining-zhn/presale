@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>汇总</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	#button_title{
+		min-width: 80px;
+		font-size: 15px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		margin:5px;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#button_edt{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+table.gridtable 
+{font-family: verdana,arial,sans-serif;
+font-size:11px;color:#333333;
+border-width: 1px;
+border-color: #666666;
+width:100%;
+border-collapse: collapse;}
+
+table.gridtable th {
+border-width: 1px;
+padding: 8px;
+border-style: solid;
+border-color: #666666;
+background-color: #dedede;}
+
+table.gridtable td {
+border-width: 1px;
+padding: 8px;
+border-style: solid;
+border-color: #666666;
+background-color: #ffffff;}
+	
+</style>
+<link href="__PUBLIC__/guanli/css/pagecss.css" rel="stylesheet" type="text/css" /><!--分页-->
+<script type="text/javascript"> 
+function fankui(a){
+	window.open("__APP__/Shangji/shangjifankui?id="+a, "", "toolbar=no,height=600,width=874");
+	return false;
+}
+</script>
+</head>
+<body style="background-color:#DDDDDD;">
+  <div class="row hero"   >
+	<div class="col-sm-10 push-sm-1 later" style="font-size: 14px; background-color:white;padding:6px;border-radius:10px;margin-bottom:8px;">
+	 <span style="float:right;margin-right:20px;margin-top:10PX;">
+		<a href="__URL__/mainindex" class="barBtn"  style="color:black;text-decoration:NONE;">
+			<img src="__PUBLIC__/admin/images/btn_refresh.gif" align="absmiddle"> 刷新
+		</a>
+	 </span>
+	  <div id="chart-composite-1" class="border"><svg height=225></svg></div> 
+	</div>
+	<div class="col-sm-10 push-sm-1 later" style="font-size: 14px; background-color:white;padding:6px;border-radius:10px;height:350px;">
+	  <div id="chart-composite-1" style="float:left;width:49%;hebackground-color:;padding:5px;border-radius:10px;" >
+		<div  style="width:49%;background-color:#F0F0F0;padding:5px;border-radius:10px;font-size:15px;margin-bottom:5px;width:100%;">
+			<strong style="color:red;">产品标签</strong>（状态:
+							<volist name="list1ss" id="vo" key="k"> 
+								<span>{$vo.siteset_content}</span>&nbsp;
+							</volist>点击标签可跳转到商机页面）
+		</div>
+		<div align="center" style="width:49%;background-color:#F0F0F0;padding:5px;border-radius:10px;height:330px;line-height:30px;height:300px;width:100%;">
+			<volist name="chanpinlist" id="vo" key="k"> 
+				<button id="button_title" onclick="window.location.href = '__APP__/Shangji/searchshangji?titleid=a&kind=Shangji_product&guanjianzi={$vo.Sitecphy_name}'">{$vo.Sitecphy_name} ({$vo.Ipsix})</button>
+			</volist>
+		</div>
+	  </div> 
+	 <div id="chart-composite-1" style="float:right;width:49%;hebackground-color:;padding: 5px;border-radius:10px;" >
+		<div  style="width:49%;background-color:#F0F0F0;padding:5px;font-size:15px;border-radius:10px;margin-bottom:5px;width:100%;">
+			<strong style="color:red;">过期商机追溯</strong>（商机状态为：已过期，最新跟踪时间降序）
+		</div>
+		<div  style="width:49%;background-color:#F0F0F0;padding:5px;border-radius:10px;height:300px;width:100%;">
+			<table border="1" class="gridtable">
+				<tr>
+					<th style="width:45px;">状态</th>
+					<th style="width:45px;">网格</th>
+					<th style="width:100px;">客户名称</th>
+					<th style="width:60px;">最新跟踪</th>
+					<th >最新跟踪详情</th>
+					<th style="width:40px;">操作</th>
+				</tr>
+			<volist name="list" id="vo" key="k">
+				<tr>
+					<td align="center" title="{$vo.Shangji_zhuangtai}">{$vo.Shangji_zhuangtai|mb_substr=0,6,'utf-8'}</td>
+					<td align="center" title="{$vo.Shangji_localwg}">{$vo.Shangji_localwg|mb_substr=0,6,'utf-8'}</td>
+					<td align="center" title="{$vo.Shangji_companyname}">{$vo.Shangji_companyname|mb_substr=0,20,'utf-8'}</td>
+					<td align="center" title="{$vo.Shangji_lastchulidate}">{$vo.Shangji_lastchulidate|mb_substr=0,10,'utf-8'}</td>
+					<td align="left">
+						<textarea style="font-size:11px;resize: none;height:20px;border:1; width:100%;text-align:left;" >{$vo.Shangji_lastbeizhu}</textarea>
+					</td>
+					<td>
+						<a rel="modal" class="nyroModal" onclick="return fankui('{$vo.Shangji_id}')" id="button_edt" style="background-color:green" >跟进</a>
+					</td>
+				</tr>
+			</volist>
+			</table>
+		  <div class="flickr" style="font-size:12px;">
+			{$Page}<!--colspan=12 跨12列 -->
+		  </div>
+		</div>
+	  </div> 
+	</div>
+  </div>
+<script src="__PUBLIC__/mainindex/frappe-charts.min.js"></script>
+<script src="__PUBLIC__/mainindex/index2.js"></script>
+<script>
+	var date={
+	    //数据
+        'reportCountList' : [
+			<volist name='shangjialllist' id="vo" key="k">
+				"{$vo.num}",
+			</volist>
+			],
+			
+        'CompositeLabels' : [
+			<volist name='shangjialllist' id="vo" key="k">
+				"{$vo.Shangji_localwg}",
+			</volist>
+			
+			],
+    };
+	new ChatDate(date);
+</script>
+
+
+</body>
+</html>

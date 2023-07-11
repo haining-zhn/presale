@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width = device-width, initial-scale = 1.0, minimum-scale = 1.0, maximum-scale = 1.0, user-scalable = no"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<title>IDC综合管理</title>
+<link rel="shortcut icon" href="__ROOT__/1.ico"/>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/mob/public/css/style.css" />
+<script src="__PUBLIC__/mob/public/js/jquery-1.11.0.min.js"></script>
+  
+</head>
+<body>
+<iframe src="__URL__/fangkelist" width="100%" height="750px;" frameborder="0" scrolling="yes" name="mainrightbottomFramess"></iframe>
+
+<!--↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓3列菜单开始↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓-->
+<div class="btn3 clearfix">
+
+    <div class="menu">
+        <div class="bt-name">访客管理</div>
+        <div class="sanjiao"></div>
+        <div class="new-sub">
+            <ul >
+                <li><a href="__URL__/fangkeadd" target="mainrightbottomFramess">访客登记</a></li>
+                <li><a href="__URL__/fangkelist"  target="mainrightbottomFramess">访客列表</a></li>
+            </ul>
+            <div class="tiggle"></div>
+            <div class="innertiggle"></div>
+        </div>
+               
+    </div><!--menu-->
+
+
+    <div class="menu">
+        <div class="bt-name">待开发</div>
+        <div class="sanjiao"></div>
+        <div class="new-sub">
+            <ul >
+                <li><a href="javascript:;">待开发</a></li>
+                <li><a href="javascript:;" >待开发</a></li>
+            </ul>
+            <div class="tiggle"></div>
+            <div class="innertiggle"></div>
+        </div>
+               
+    </div><!--menu-->
+
+
+    <div class="menu" >
+    <div class="bt-name">我的({$name})</div>
+    <div class="sanjiao"></div>
+    <div  class="new-sub">
+        <ul>
+            <li><a href="__URL__/APP_loginout">退出登录</a></li>
+            <li><a href="javascript:;" >待开发</a></li>
+        </ul>
+        <div class="tiggle"></div>
+        <div class="innertiggle"></div>
+    </div>
+    </div><!--menu-->
+</div><!--btn3-->
+
+<!--↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑3列菜单end↑↑↑↑↑↑↑↑↑↑↑↑↑↑-->
+<script type="text/javascript">
+//弹出垂直菜单
+$(".menu").click(function() {
+    if ($(this).hasClass("cura")) {
+        $(this).children(".new-sub").hide(); //当前菜单下的二级菜单隐藏
+        $(".menu").removeClass("cura"); //同一级的菜单项
+    } else {
+        $(".menu").removeClass("cura"); //移除所有的样式
+        $(this).addClass("cura"); //给当前菜单添加特定样式
+        $(".menu").children(".new-sub").slideUp("fast"); //隐藏所有的二级菜单
+        $(this).children(".new-sub").slideDown("fast"); //展示当前的二级菜单
+    }
+});
+</script>
+</body>
+</html>

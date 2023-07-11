@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>用户列表</title>
+<style>
+    .content {
+      width:99%;
+	  height:auto;
+	  background-color: #F5F5DC;
+	  padding-top:2px;
+	  padding-bottom:10px;
+	  padding-left:8px;
+	  padding-right:8px;
+	  border-radius:18px;
+	  
+    }
+    #table-1 {
+      width: 100%;
+      line-height: 22px;
+	  border-collapse:collapse;
+	  border-spacing:0;
+	  border-left:1px solid #888;
+	  border-top:1px solid #888;
+	  background:white;
+	  font-size: 13px !important;
+	  font-family:DFKai-SB!important;
+    }
+    #lin {
+      margin: 20px 0;
+      height: 30px;
+      padding: 5px;
+      box-sizing: border-box;
+	  width:300px;
+    }
+    th,td{
+		border-right:1px solid #888;
+		border-bottom:1px solid #888;
+		padding:5px 15px;
+	}
+    th{
+		font-weight:bold;background:#ccc;
+	}
+	#button_edt{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#btn{
+		min-width: 60px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+		flex: 1;
+	}
+	#btn:hover{
+		min-width: 60px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #00CCCC;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#button_show{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: green;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#button_add{
+		min-width: 50px;
+		font-size: 14px;
+		margin: 10px;
+		background-color: #3333CC;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		float:right;
+		border-radius:10px;
+	}
+	#button_del{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color:#F00000;
+		color: #FFFFFF;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+</style>
+<script>
+	lastobj=null;
+	function current(obj)
+	{
+	if(lastobj!=null)
+	{
+	lastobj.style.background="";
+	lastobj.style.color="";
+	}
+	obj.style.background="#99FFFF";
+	obj.style.color="black";
+	lastobj=obj;
+	}
+</script>
+<link href="__PUBLIC__/guanli/css/pagecss.css" rel="stylesheet" type="text/css" /><!--分页-->
+<!--提示确认动画样式-->
+<script src="__PUBLIC__/windows/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/windows/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body style="background-color:white;">
+  <div class="content">
+	<button id="button_add" style="background-color:green;" onclick="window.location.href = 'javascript:history.go(-1);'">返回之前</button>
+		<if condition="$loginusers['Person_biaoshi'] eq 0"> 
+			<button id="button_add" onclick="errorjieguo('当前您没权限！')" style="background-color:#909090;">新增用户</button>
+		<else />
+			<if condition="$loginusers['Person_biaoshi'] eq 1"> 
+				<button id="button_add" onclick="window.location.href = '__URL__/usersadd'">新增用户</button>
+			<else />
+				<button id="button_add" onclick="window.location.href = '__URL__/usersadd'">新增用户</button>
+			</if>
+		</if>
+    <table id="table-1" cellspacing='0' border="1" style="text-align: center;font-size:15px;">
+      <tr>
+        <th style="width:3px;">ID</th>
+        <th>账号</th>
+		<th>用户名</th>
+        <th>手机号</th>
+        <th>邮箱</th>
+        <th>岗位职称</th>
+		<th width="5%">性别</th>
+		<th>最后登录时间</th>
+		<th>注册时间</th>
+		<th>所属区县</th>
+		<th>权限</th>
+		<th width="9%">操作</th>
+      </tr>
+	<volist name="list" id="vo" key="k" empty="当前无内容">					
+      <tr onclick=current(this) id="tr_{$vo.Person_int}">
+        <td>{$k}</td>
+		<td title="{$vo.Person_id}">
+			{$vo.Person_id|mb_substr=0,6,'utf-8'}
+		</td>
+        <td style="font-family:KaiTi_GB2312!important;font-size: 14px!important;" title="{$vo.Person_name}">
+			{$vo.Person_name|mb_substr=0,4,'utf-8'}
+		</td>
+        <td title="{$vo.Person_phone}">
+			{$vo.Person_phone|mb_substr=0,11,'utf-8'}
+		</td>
+        <td align="left" title="{$vo.Person_mail}">
+			{$vo.Person_mail|mb_substr=0,30,'utf-8'}
+		</td>
+        <td title="{$vo.Person_gangwei}">
+			{$vo.Person_gangwei|mb_substr=0,11,'utf-8'}
+		</td>
+        <td title="{$vo.Person_fex}">
+			{$vo.Person_fex|mb_substr=0,1,'utf-8'}
+		</td>
+        <td title="{$vo.Person_lastdate}">
+			<if condition="$vo.Person_biaoshi eq C('nologin')"> 
+				<span style="color:red;">禁止登录</span>
+			<else />
+				{$vo.Person_lastdate|mb_substr=0,10,'utf-8'}
+			</if>
+		</td>
+        <td title="{$vo.Person_zhucedate}">
+			{$vo.Person_zhucedate|mb_substr=0,10,'utf-8'}
+		</td>
+        <td title="{$vo.Person_localxq}{$vo.Person_localwg}">
+			{$vo.Person_localxq}{$vo.Person_localwg}
+		</td>
+		<td>
+			<if condition="$vo.Person_biaoshi eq 0"> 
+				普通用户
+			<else />
+				<if condition="$vo.Person_biaoshi eq 1"> 
+					管理员
+				<else />
+					网格管理员
+				</if>
+			</if>
+		</td>
+		<td>	
+		<if condition="$loginusers['Person_biaoshi'] eq 1"> 
+			
+			<if condition="$vo.Person_id eq $loginusers['Person_id']"> 
+				<a href="javascript:void(0)" id="button_edt" onclick="edithtml({$vo.Person_int})" >编辑</a>&nbsp;
+				<a  id="button_del" onclick="errorjieguo('不可以删除自己！')" style="background-color:#909090;" >删除</a>
+			<else />
+				<a href="javascript:void(0)" id="button_edt" onclick="edithtml({$vo.Person_int})" >编辑</a>&nbsp;
+				<a href="javascript:void(0)" id="button_del" onclick="del_user({$vo.Person_int})" >删除</a>
+			</if>
+		<else />
+			<if condition="$loginusers['Person_biaoshi'] eq 2  and $vo.Person_localwg  eq $loginusers['Person_localwg']"> 
+				<if condition="$vo.Person_id eq $loginusers['Person_id']"> 
+					<a href="javascript:void(0)" id="button_edt" onclick="edithtml({$vo.Person_int})" >编辑</a>&nbsp;
+					<a  id="button_del" onclick="errorjieguo('不可以删除自己！')" style="background-color:#909090;" >删除</a>
+				<else />
+					<a href="javascript:void(0)" id="button_edt" onclick="edithtml({$vo.Person_int})" >编辑</a>&nbsp;
+					<a href="javascript:void(0)" id="button_del" onclick="del_user({$vo.Person_int})" >删除</a>
+				</if>
+			<else />
+				<a id="button_edt" onclick="errorjieguo('没有权限！')" style="background-color:#909090;">编辑</a>&nbsp;
+				<a  id="button_del" onclick="errorjieguo('没有权限！')" style="background-color:#909090;" >删除</a>
+			</if>
+		</if>
+		</td>
+      </tr>
+	  </volist>
+    </table>
+	<div class="yahoo2">
+		{$Page}
+	</div>
+  </div>
+  <!-- 自动搜索 or $Person_bumen eq '管理员专用组' del_article -->
+  <script type="text/javascript" src="__PUBLIC__/smalldoc/biao/js/jquery.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/smalldoc/biao/js/lin_search.js"></script>
+  <script type="text/javascript">
+    var table = document.getElementById("table-1");
+    var input = document.getElementById("lin")
+    input.onkeyup = function () {
+      new Search(table, input)
+    }
+  </script>
+  <!-- 自动搜索  -->
+  
+<script src="__PUBLIC__/ajax/jquery-1.8.2.min.js"></script> <!-- 自动搜索  -->
+  
+<script type="text/javascript">
+    //提交
+        document.getElementById('btn').onclick = function () { 
+			//验证数据为空
+			if(!myForm.kind.value){
+				myForm.kind.focus();
+				return errorjieguo("请选择类型！");
+			}
+			if(!myForm.guanjianzi.value){
+				myForm.guanjianzi.focus();
+				return errorjieguo("请输入关键字！");
+			}
+			loading("搜索中");
+        }
+	function edithtml(edttid){
+					var xhr=new XMLHttpRequest();
+					var url='__URL__/usersedit?id='+edttid;
+					xhr.open('get',url);
+					xhr.send(null);
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							if(xhr.responseText==0){
+								return errorjieguo("编辑项可能不存在！");
+							}else{
+								window.location.href = "__URL__/usersedit?id="+edttid;
+							}
+						};
+					}
+		
+	}
+	function loading(s){
+		showLoading({
+			title: s, //提示文字
+			icon: 'loading', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 50000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+		
+		});
+		setTimeout(function() {
+			hideLoading()
+		}, 2000)
+	}
+	function del_user(catid){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: "确认要删除吗？",  //提示的内容
+			showCancel: true,  //是否显示取消按钮，默认为 true
+			cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '确定',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					var xhr=new XMLHttpRequest();
+					var url='__URL__/del_user?id='+catid;
+					xhr.open('get',url);
+					xhr.send(null);
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							if(xhr.responseText==1){
+								document.getElementById('tr_'+catid).remove();
+								return successjieguo();
+							}else if(xhr.responseText==0){
+								return errorjieguo("删除失败，该记录可能不存在！");
+							}else{
+								return errorjieguo("其他错误，请联系管理员！");
+							}
+						};
+					}
+						
+				} else {
+					console.log('取消');
+				}
+			}
+		});
+	}
+	function errorjieguo(a){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: a,  //提示的内容
+			titleColor:'red',
+			showCancel: false,  //是否显示取消按钮，默认为 true
+			cancelText: 'no',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '已知晓',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					console.log('yes');
+				} else {
+					console.log('no');
+				}
+			}
+		});
+	}
+	function successjieguo(){
+		showLoading({
+			title: "删除成功！", //提示文字
+			icon: 'success', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 1000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+		
+		});
+		
+	}
+</script>
+</body>
+</html>

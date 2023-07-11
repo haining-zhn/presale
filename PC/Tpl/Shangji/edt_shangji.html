@@ -1,0 +1,440 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商机编辑</title>
+<link href="__PUBLIC__/admin/style.css" rel="stylesheet" type="text/css" />
+<!-- <script type="text/javascript" src="__PUBLIC__/admin/js/main.js"></script> -->
+<!-- <script type="text/javascript" src="__PUBLIC__/admin/wenbenjs/js.min.js"></script> -->
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/admin/auto/auto.css" />
+<script src="__PUBLIC__/erjiliandong/js/jquery-1.8.0.min.js"></script><!-- 下拉二级联动 -->
+	<style>
+	.table1 tr{
+		line-height:25px;
+	}
+		#buttonadd{
+			min-width: 55px;
+			font-size: 13px;
+			margin-right: 20px;
+			float:center;
+			background-color: #3333CC;
+			color: #fff;
+			border: 0.5;
+			padding: 3px;
+			border-radius:5px;	
+		}
+		#buttonadd:hover { background-color: #0000CD; }
+		#buttonreset:hover { background-color: #3CB371; }
+		#buttonreset{
+			min-width: 55px;
+			font-size: 13px;
+			margin-right: 20px;
+			float:center;
+			background-color: green;
+			color: #fff;
+			border: 0.5;
+			padding: 3px;
+			border-radius:5px;	
+		}
+	</style>
+
+	<!-- 下拉二级联动 -->
+	<script>
+		$(document).ready(function(){
+			 getSection();
+			$("#Shangji_custmanageradmin").change(function(){
+			 getCatidcust();
+			});
+			 
+		 function getSection()
+			{
+			 $.getJSON("__URL__/getSection", function(data) {
+			  $.each(data, function(i, item) {
+			   $("<option></option>").val(item['Person_name']).text(item['Person_name']+"-"+"["+item['Person_localwg']+"]").appendTo($("#Shangji_custmanageradmin"));
+			  });
+				getCatidcust();
+			 });
+			}
+
+		  function getCatidcust()
+			{
+			 $("#custlist").empty();
+			 $.getJSON("__URL__/getCatidcust",  {id:$("#Shangji_custmanageradmin").val()}, function(data) {   //网格ID
+			  $.each(data, function(i, item) {
+			   $("<option></option>").val(item['Person_name']).text(item['Person_name']).appendTo($("#custlist"));
+			  });
+			 });
+			}
+		});	
+	</script>
+</head>
+<body>
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td style="height:34px; background-color:white border-bottom:1px solid #cfd8e0; padding:0px;color:red;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="20" height="34"></td>
+          <td style="color:black;font-size:13px;"><img src="__PUBLIC__/admin/images/icon_card.gif" width="16" height="16" align="absmiddle">
+		  &nbsp;&nbsp;<strong>当前位置：商机管理&nbsp; >> &nbsp;商机编辑</strong>&nbsp;&nbsp;
+		  <a href="__URL__/shangji" class="barBtn" style="color:black;"><img src="__PUBLIC__/admin/images/btn_back.gif" align="absmiddle"> 返回商机管理</a> 
+		  </td>
+          <td align="right" style="padding-right:20px">
+			<a href="javascript:history.go(-1);" style="color:black;" class="barBtn"><img src="__PUBLIC__/admin/images/btn_left.gif" align="absmiddle"> 后退</a>
+			<a href="#" class="barBtn" onClick="location.reload();" style="color:black;"><img src="__PUBLIC__/admin/images/btn_refresh.gif" align="absmiddle"> 刷新</a>
+		  </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr >
+    <td height="100%" valign="top" >
+    <div style="overflow:auto;height:100%; width:100%;">
+	<form class="layui-form" name="myForm" id="fm"  enctype="multipart/form-data">
+      <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1" style="">
+		<TR>
+          <th align="center">客户公司名称</th>
+          <TD width="55%" style="height:30px;" class="BGCgray">&nbsp;&nbsp;
+				<input type="text" id="input" placeholder="已录入过商机客户下拉提醒！" value="{$editlist['Shangji_companyname']}" autocomplete="off" style="width:400px;height:24px;" required="true"  name="Shangji_companyname" class="auto-inp"> 
+				<div class="auto hidden" id="auto">
+				</div>&nbsp;&nbsp;<em style="color:red;">*</em>
+				<script src="__PUBLIC__/auto/auto.js"></script>
+				<script>
+					var array = [ <volist name='kehualllist' id='vo'>"{$vo.Shangji_companyname}",</volist> ];
+					var autoComplete = new AutoComplete("input","auto",array);
+					document.getElementById("input").onkeyup = function(event){
+						autoComplete.start(event);
+					}
+				</script>
+		  </TD>
+		  <TD class="BGCgray" style="color:red;">必填项，输入客户全称。</TD>
+        </TR>
+		<TR>
+          <th align="center">客户联系人</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;
+			<input type="text" name="Shangji_custname" value="{$editlist['Shangji_custname']}" required="true" placeholder="输入联系人" style="width:100px;" />&nbsp;&nbsp;<span style="color:red;">*</span>
+			&nbsp;&nbsp;手机号&nbsp;
+			<input type="text" placeholder="183****"  value="{$editlist['Shangji_custphone']}" style="width:160px;height:24px;" required="true"  name="Shangji_custphone"> 
+			<span style="color:red;">*</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">必填项
+		  </TD>
+        </TR>
+		<TR>
+          <th align="center">客户公司地址</th>
+          <TD width="55%" style="height:30px;" class="BGCgray">&nbsp;&nbsp;
+			<input type="text" placeholder="江苏省苏州市昆山市****号"  value="{$editlist['Shangji_companylocal']}" style="width:400px;height:24px;" name="Shangji_companylocal"> 
+		  </TD>
+		  <TD class="BGCgray" style="color:red;"></TD>
+        </TR>
+		<TR>
+          <th align="center">项目名称</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;
+			<input type="text" name="Shangji_projectname" required="true" value="{$editlist['Shangji_projectname']}" placeholder="****项目" style="width:200px;" />&nbsp;&nbsp;<span style="color:red;">*</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">必填项</TD>
+        </TR>
+		<TR>
+          <th align="center">行业及级别</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;行业&nbsp;
+			 <select name="Shangji_custhangye" class="selyz" id="first" required="true">
+				  <option value="{$editlist['Shangji_custhangye']}" selected="selected">-{$editlist['Shangji_custhangye']}-</option>
+				<volist name="hangyelist" id="vo" key="k"> 
+					<if condition="$vo.Sitecphy_name eq $editlist['Shangji_custhangye']">
+					<else />
+						<option value="{$vo.Sitecphy_name}">-{$vo.Sitecphy_name}-</option>
+					</if>
+				</volist>
+			 </select>&nbsp;&nbsp;<span style="color:red;">*</span>
+			&nbsp;&nbsp;客户级别&nbsp;
+			 <select name="Shangji_level" class="selyz" id="first" required="true">
+				  <option value="{$editlist['Shangji_level']}" selected="selected">-{$editlist['Shangji_level']}-</option>
+				  <option value="一般">-一般-</option>
+				  <option value="潜在">-潜在-</option>
+				  <option value="重要">-重要-</option>
+				</if>
+			 </select>
+			<span style="color:red;">*</span>
+			&nbsp;&nbsp;商机来源&nbsp;
+			 <select name="Shangji_laiyuan" class="selyz" id="Shangji_laiyuan" required="true">
+				  <option value="{$editlist['Shangji_laiyuan']}" selected="selected">-当前-{$editlist['Shangji_laiyuan']}-</option>
+				<volist name="laiyuanlist" id="vo" key="k">  
+				  <option value="{$vo.Sitecphy_name}">-{$vo.Sitecphy_name}-</option>
+				</volist>
+			 </select>
+			<span style="color:red;">*</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">必填项</TD>
+        </TR>
+		<script>
+			var arr = [],inp;
+			onload = function(){
+				var cks = document.getElementsByName("Shangji_product");
+				for(var i = 0; i < cks.length; i++){
+					var cki = cks[i];
+					cki.onchange = function(){
+						if(this.checked){
+							if(!document.getElementById("inp")){
+								inp = document.createElement("textarea");
+								inp.type = "text";
+								inp.id = "inp";
+								inp.name = "product";
+								inp.style = "width:500px;height:40px;resize: none;font-size:12px;background-color:#DDDDDD";
+								ddv.appendChild(inp);
+							}
+						}else{
+							var yes = false;
+							for(var j=0;j<cks.length;j++){
+								if(cks[j].checked){
+									yes = true;
+									break;
+								}
+							}
+							if(!yes){
+								ddv.removeChild(inp);
+							}
+						}
+						inp = document.getElementById("inp");
+						if(!!inp){
+							arr = [];
+							for(var j=0;j<cks.length;j++){
+								if(cks[j].checked){
+									arr.push(cks[j].value);
+								}
+							}
+							inp.value=arr.join("/");
+						}
+					}
+				}
+			}
+		</script>
+		<TR style="height:80px;">
+          <th align="center">涉及的产品</th>
+          <TD width="55%" class="BGCgray" >&nbsp;&nbsp;
+			<label>
+				<volist name="chanpinlist" id="vo" key="k"> 
+					<input type="checkbox" name="Shangji_product"  value="{$vo.Sitecphy_name}" />{$vo.Sitecphy_name}
+				</volist>
+			</label> 
+			 &nbsp;&nbsp;<br />
+			 <textarea style="width:100%;height:20px;resize: none;font-size:12px;background-color:white">{$editlist['Shangji_product']}</textarea>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">不修改，不需要选择,会整体覆盖之前内容。已选择：
+		  	<div id="ddv" style="width:300px;">
+			
+			</div>
+		  </TD>
+        </TR>
+		<TR>
+          <th align="center">预算和可参与金额</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;预算：
+			<input type="text" name="Shangji_projectyusuan" placeholder="填写数字金额" value="{$editlist['Shangji_projectyusuan']}" id="shuliang" style="width:80px;" />&nbsp;万元&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;可参与：
+			<input type="text" name="Shangji_projectcanyu" placeholder="填写数字金额" value="{$editlist['Shangji_projectcanyu']}" id="shuliang" style="width:80px;" />&nbsp;万元
+			&nbsp;&nbsp;<span style="color:red;">商机状态为：已报价、跟进中、已签约时，参与金额必填。</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">单位：万元</TD>
+        </TR>
+		<script>
+			var oInp = document.getElementById('shuliang');
+			oInp.onblur=function(){
+				if(isNaN(Number(oInp.value))){  //当输入不是数字的时候，Number后返回的值是NaN;然后用isNaN判断。
+					alert('请填写数字！');
+					return false;
+				 }
+			 }
+		</script>
+		<TR>
+          <th align="center">项目时间</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;预计招标时间 
+			<input type="text" name="Shangji_projectzhaobiao" value="{$editlist['Shangji_projectzhaobiao']}" class="sang_Calender" style="width:160px" placeholder="单击选择" />&nbsp;&nbsp;
+			<script type="text/javascript" src="__PUBLIC__/admin/date/datetime.js"></script>&nbsp;&nbsp;开始时间（商机获取时间）
+			<input type="text" name="Shangji_startdate" value="{$editlist['Shangji_startdate']}" class="sang_Calender" required="true" style="width:160px" placeholder="单击选择" />&nbsp;&nbsp;<span style="color:red;">*</span>
+			<script type="text/javascript" src="__PUBLIC__/admin/date/datetime.js"></script>
+		  </TD>
+		  <TD class="BGCgray" style="color:red;">开始时间：默认为当前时间，为商机获取时间，不得大于当前录入时间。</TD>
+        </TR>
+		<TR>
+          <th align="center">主任和客户经理</th>
+          <TD width="40%" class="BGCgray">&nbsp;&nbsp;主任：{$editlist['Shangji_custmanageradmin']}&nbsp;&nbsp;客户经理：{$editlist['Shangji_custmanager']}
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  【主任：
+			<select name="Shangji_custmanageradmin" id="Shangji_custmanageradmin" required="true">
+				<option value="">-不修改，不需要选择-</option>
+			</select>&nbsp;&nbsp;
+			&nbsp;&nbsp;客户经理：
+			<input type="text" list="custlist" name="Shangji_custmanager" autocomplete="off" style="width:80px;" placeholder="双击输入框！" >&nbsp;
+			<datalist id="custlist">
+<!-- 				<volist name="custerlist" id="KH">
+					<option value="{$KH.Shangji_custmanager}"></option> 
+				</volist> -->
+			</datalist> 
+			】
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">不修改，不需要选择。</TD>
+        </TR>
+		<TR>
+          <th align="center">属地</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;
+				<select name="Shangji_localqx" id="first" onChange="qxlist()">
+				   <option selected="selected" value="{$loginusers['Person_localxq']}">-{$loginusers['Person_localxq']}-</option>
+				</select> &nbsp;&nbsp;<span style="color:red;">*</span>&nbsp;&nbsp;
+				<select name="Shangji_localwg" id="second">
+			<if condition="$loginusers['Person_biaoshi'] eq 1"> 
+					<option value="{$editlist['Shangji_localwg']}">-{$editlist['Shangji_localwg']}-</option>
+				<volist name="wanggelist" id="vo" key="k" empty="为空">	
+					<if condition="$vo.Sitesdzc_name eq $editlist['Shangji_localwg']">
+					<else />
+						<option value="{$vo.Sitesdzc_name}">-{$vo.Sitesdzc_name}-</option>
+					</if>
+				</volist>
+			<else />
+				<option value="{$editlist['Shangji_localwg']}">-{$editlist['Shangji_localwg']}-</option>
+			</if>
+				</select>
+			&nbsp;&nbsp;<span style="color:red;">*</span>
+		  </TD>
+		  <TD class="BGCgray" style="color:red;">必填项</TD>
+        </TR>
+		<TR>
+          <th align="center">项目状态</th>
+          <TD width="55%" class="BGCgray">
+			&nbsp;&nbsp;
+			 <select name="Shangji_zhuangtai" class="selyz" id="first" required="true">
+				  <option value="{$editlist['Shangji_zhuangtai']}" selected="selected">-{$editlist['Shangji_zhuangtai']}-</option>
+			 </select>
+			<span style="color:red;">*请点击“跟进”来更新商机状态。</span>
+			&nbsp;&nbsp;
+			商机对接人(管理员)&nbsp;&nbsp;
+			<select name="Shangji_admin"  required="true">
+				  <option value="{$editlist['Shangji_adminperson']}" selected="selected">-{$editlist['Shangji_adminperson']}（当前）-</option>
+				<volist name="lists" id="vo" key="k" empty="无数据"> 
+				  <option value="{$vo.Person_name}">-{$vo.Person_name}-</option>
+				</volist>
+			 </select>
+			 <span style="color:red;">* 为当前区县管理员人员</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">必填项</TD>
+        </TR>
+		<TR>
+          <th align="center">设置商机过期时间</th>
+          <TD width="55%" class="BGCgray">&nbsp;&nbsp;在
+				<input type="text" name="Shangji_datetime" value="{$editlist['Shangji_datetime']}" class="sang_Calender" required="true" style="width:160px" placeholder="单击选择" />
+				<script type="text/javascript" src="__PUBLIC__/admin/date/datetime.js"></script>
+				之前内未落地为无效商机，项目状态系统自动标记为：已过期。
+			<span style="color:red;">*</span>
+		 </TD>
+		  <TD class="BGCgray" style="color:red;">必填项，默认3个月。</TD>
+        </TR>
+		<TR>
+          <th align="center">备注</th>
+          <TD width="40%" class="BGCgray">&nbsp;&nbsp;
+			<textarea name="Shangji_beizhu" style="font-size:13px;resize: none;" cols="65" placeholder="备注补充" rows="4">{$editlist['Shangji_beizhu']}</textarea>
+		  </TD>
+		  <TD class="BGCgray" style="color:red;"></TD>
+        </TR>
+		<TR style="height:50px;">
+          <TD align="center" colspan="3" >
+		  	<input type="hidden" name="editid" value="{$editlist['Shangji_id']}">
+			<input type="hidden" name="lasttime" value="{$editlist['Shangji_lastchulidate']}">
+			<input type="hidden" name="httpref" value="{$_SERVER['HTTP_REFERER']}">
+			<input type="button" name="anniu" class="layui-btn" id="buttonadd" lay-submit value="保存"  onclick="submitFrom()" />
+		  </TD>
+		</TR>
+      </table>
+  <!--    <div style="width:100%; text-align:center;">
+			<input type="hidden" name="editid" value="{$editlist['Shangji_id']}">
+			<input type="hidden" name="lasttime" value="{$editlist['Shangji_lastchulidate']}">
+			<input type="hidden" name="httpref" value="{$_SERVER['HTTP_REFERER']}">
+			<input type="button" name="anniu" class="layui-btn" id="buttonadd" lay-submit value="保存"  onclick="submitFrom()" />
+      </div>-->
+	</form>
+  </td>
+  </tr>
+</table>
+<!--提示确认动画样式-->
+<script src="__PUBLIC__/windows/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/windows/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+
+<script>
+    //提交
+        document.getElementById('buttonadd').onclick = function () { 
+			//验证数据为空
+			if(!myForm.Shangji_companyname.value){
+				myForm.Shangji_companyname.focus();
+				return ;
+			}
+			if(!myForm.Shangji_custname.value){
+				myForm.Shangji_custname.focus();
+				return;
+			}
+			if(!myForm.Shangji_admin.value){
+				myForm.Shangji_admin.focus();
+				return;
+			}
+			//找到表单DOM对象
+            var fm = document.getElementById('fm');
+            // 创建FormData对象并传递表单
+            var fd = new FormData(fm);
+			var url='__URL__/edt_shangji_action';
+            var xhr = new XMLHttpRequest();
+            //接口fd：收到提交的数据后会返回收到的数据
+            xhr.open('POST',url, '/fd');
+            xhr.send(fd);
+			
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					if(xhr.responseText!=1){
+						return errorjieguo(xhr.responseText);
+					}else{ 
+						return successjieguo();	
+					}
+				};
+
+			};
+        }
+    //重置
+    function resetFrom()
+    {
+        //重置表单
+        document.getElementsByName("myForm")[0].reset();
+    }
+
+	function successjieguo(){
+		showLoading({
+			title: "编辑成功！", //提示文字
+			icon: 'success', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 2000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+			
+		});
+		window.location.href = "{$_SERVER['HTTP_REFERER']}" ;
+	}
+	function errorjieguo(a){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: a,  //提示的内容
+			titleColor:'red',
+			showCancel: false,  //是否显示取消按钮，默认为 true
+			cancelText: 'no',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '已知晓',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					console.log('yes');
+				} else {
+					console.log('no');
+				}
+			}
+		});
+	}
+
+</script>
+</body>
+</html>

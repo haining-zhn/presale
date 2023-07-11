@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$website["Webset_sitename"]}</title>
+<script type="text/javascript" src="__PUBLIC__/main/index/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/main/css/z-UI.css">
+<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/main/index/flex.css"> -->
+<script type="text/javascript" src="__PUBLIC__/main/index/index.min.js"></script>
+<link rel="shortcut icon" href="__ROOT__/1.ico"/>
+<style>
+	html{
+		width: 100%;height: 100%;
+	}
+	#button_logout{
+		min-width: 50px;
+		font-size: 15px;
+		height:20px;
+		margin: 10px;
+		background-color: blue;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		border-radius:10px;
+	}
+	#button_qiehuan{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 10px;
+		background-color: #008800;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		border-radius:10px;
+	}
+</style>
+</head>
+<body class="zUI-full">
+<div class="zUI-app">
+    <div class="zUI-header">
+        <div class="zUI-logo" style="color:#eee;cursor: pointer;width:100%;">
+            <img src="__ROOT__/1.ico">
+            <strong style="font-family:STKaiti;font-size:20px;">{$website["Webset_sitename"]}</strong>
+			 <!-- 头部区域（可配合layui已有的水平导航） -->
+			<span style="color:white;float:right;margin:0 30px;">
+				欢迎您！
+				{$loginusers['Person_name']}&nbsp;&nbsp;[{$loginusers['Person_localxq']}{$loginusers['Person_localwg']}-{$loginusers['Person_gangwei']}]&nbsp;
+		<if condition="$panding eq 1">	
+			<select name="Shangji_custmanageradmin" onchange="location.href=this.options[this.selectedIndex].value"  id="button_qiehuan" >
+				<option value="">-{$loginusers['Person_localwg']}-</option>
+				<volist name="list" id="vo" key="k" empty="为空">
+					<if condition="$vo.Person_localwg eq $loginusers['Person_localwg']">	
+						
+					<else />
+						<option value="__URL__/qiehuanuser?userid={$vo.Person_id}&pwd={$vo.Person_pwd}">-{$vo.Person_localwg}-</option>
+					</if>
+				</volist>
+			</select>
+			<script>
+				$(function(){
+					$("#button_qiehuan").change(function(){
+						var op=$("#button_qiehuan").find('option');
+						op.get(0).selected=true;
+					});
+				})
+			</script>
+		<else />
+		</if>
+				<a href="javascript:void(0)" id="button_logout" onclick="loginout()" style="color:white;">退出登录</a>
+			</span>
+        </div>
+    </div>
+    <div class="zUI-left" id="float-left">
+        <div class="zUI-hide-scroll">
+            <ul class="zUI-nav top_body_mark" id="top_body_1">
+                <li class="zUI-second-nav">
+                    <a href="javascript:;" onclick="switchItem(this)">商机管理</a>
+                    <dl class="zUI-nav-child">
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('zonglan')">商机总览</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('shangji')">商机列表</a>
+                        </dd>
+					<if condition="$loginusers['Person_biaoshi'] elt 1">	
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('myshangji')">我对接的</a>
+                        </dd>
+					<else />
+					
+					</if>
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('tubiaoindex')">商机图表</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('shangjiset')">商机设置</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="zUI-second-nav">
+                    <a href="javascript:;" onclick="switchItem(this)">用户管理</a>
+                    <dl class="zUI-nav-child">
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('personedit')">修改个人信息</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('userslist')">用户列表</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="zUI-second-nav">
+                    <a href="javascript:;" onclick="switchItem(this)">网站相关</a>
+                    <dl class="zUI-nav-child">
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('webset')">网站设置</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" onclick="addMenu('urlsm')">网站说明</a>
+                        </dd>
+                    </dl>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="zUI-body flex flex-lie" id="right-body">
+        <div class="zUI-bar-content" id="tbarBox">
+            <!--<div class="tab-item selected-tab" id="tbarItem_0"><div class="tab-title" title="首页" onclick="switchTbar(0)"><i class="fa fa-home" style="color:#aaa;line-height: 35px;font-size: 14px;margin-right:4px;"></i>首页</div><div class="tab-close"><a href="javascript:void(0)" onclick="closeTbar(0)"><i class="layui-icon layui-icon-password not-close"></i></a></div></div>-->
+        </div>
+        <div class="zUI-iframe">
+            <div class="fload-plugin" id="float-tool">
+                <div><i class="fa fa fa-arrows-v"></i></div>
+            </div>
+		</div>
+    </div>
+</div>
+<script>
+    var menu = {
+        '0':{
+            title:'商机总览',
+            url:'__APP__/Main/mainindex'
+        },
+        'zonglan':{
+            title:'商机总览',
+            url:'__APP__/Main/mainindex'
+        },
+        'shangji':{
+            title:'商机管理',
+            url:'__APP__/Shangji/shangji'
+        },
+        'tubiaoindex':{
+            title:'商机图表',
+            url:'__APP__/Shangji/tubiaoindex'
+        },
+        'myshangji':{
+            title:'我对接的',
+            url:"__APP__/Shangji/searchshangji?titleid=3&kind=Shangji_adminperson&guanjianzi={$loginusers['Person_name']}"
+        },
+        'shangjiset':{
+            title:'商机设置',
+            url:'__APP__/Shangji/shangjiset'
+        },
+        'personedit':{    //个人信息修改
+            title:'修改个人信息',
+            url:'__APP__/Users/personedit'
+        },
+        'userslist':{    //个人信息修改
+            title:'用户列表',
+            url:'__APP__/Users/userslist'
+        },
+        'urlsm':{    //个人信息修改
+            title:'网站说明',
+            url:'__APP__/Main/urlsm'
+        },
+        'webset':{    //网站设置
+            title:'网站设置',
+            url:'__APP__/Main/webset'
+        },
+        'help':{    //个人信息修改
+            title:'文档(流程图)',
+            url:'__ROOT__/Uploads/云计算售前支撑管理说明.jpg'
+        }
+    };
+
+    function switchItem(o){
+        if($(o).next().is(':visible')){
+            $(o).next().hide();
+        }else{
+            $(o).next().show();
+        }
+    }
+    function addMenu(key){
+        if(menu[key]){
+            addTbar(menu[key]);
+        }
+    }
+    $(function(){
+        addTbar(menu[0]);
+    })
+</script>
+<!--提示确认动画样式-->
+<script src="__PUBLIC__/windows/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/windows/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	function loginout(){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: "确认要退出系统嘛？",  //提示的内容
+			showCancel: true,  //是否显示取消按钮，默认为 true
+			cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '确定',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					window.location.href = "__APP__/Index/APP_loginout";	ss
+				} else {
+					console.log('取消');
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>

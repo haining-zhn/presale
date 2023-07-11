@@ -1,0 +1,475 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>商机搜索列表</title>
+<link rel="stylesheet" href="__PUBLIC__/admin/nyroModal.css" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/admin/js/main.js"></script>
+<script type="text/javascript" SRC="__PUBLIC__/admin/js-js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" SRC="__PUBLIC__/admin/js-js/jquery.nyroModal.custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/admin/jquery-1.8.3.min.js"></script>
+<link rel="Stylesheet" type="text/css" href="__PUBLIC__/admin/loginDialog.css" />
+<style>
+    .content {
+      width:99%;
+	  height:auto;
+	  background-color: #E0FFFF;
+	  padding-bottom:10px;
+	  padding-left:8px;
+	  padding-right:8px;
+	  border-radius:18px; 
+	  font-size: 14px ;
+    }
+    #table-1 {
+      width: 100%;
+      line-height: 22px;
+	  border-collapse:collapse;
+	  border-spacing:0;
+	  border-left:1px solid #888;
+	  border-top:1px solid #888;
+	  background:white;
+	  font-size: 12px !important;
+	  font-family:DFKai-SB!important;
+    }
+    #lin {
+      margin: 20px 0;
+      height: 30px;
+      padding: 5px;
+      box-sizing: border-box;
+	  width:260px;
+    }
+    th,td{
+		border-right:1px solid #888;
+		border-bottom:1px solid #888;
+		padding:5px 15px;
+	}
+    th{
+		font-weight:bold;background:#7FFFD4;
+	}
+	#button_edt{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#btn{
+		min-width: 60px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #1E9FFF;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+		flex: 1;
+	}
+	#btn:hover{
+		min-width: 60px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: #00CCCC;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#button_show{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color: green;
+		color: #fff;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+	#button_add{
+		min-width: 50px;
+		height:28px;
+		line-height:26px;
+		font-size: 14px;
+		margin: 10px;
+		background-color: green;
+		color: #fff;
+		border: none;
+		float:right;
+		text-decoration:none;
+		border-radius:8px;
+	}
+	#button_del{
+		min-width: 50px;
+		font-size: 12px;
+		margin: 0px;
+		background-color:#F00000;
+		color: #FFFFFF;
+		border: none;
+		padding: 6px;
+		text-decoration:none;
+		border-radius:10px;
+	}
+</style>
+<script type="text/javascript">
+	$(function() {
+		$('.nyroModal').nyroModal();
+	});
+
+$("#btn1").click(function(){ 
+$("input[name='checkbox']").attr("checked","true"); 
+}) 
+</script>
+<script>
+	lastobj=null;
+	function current(obj)
+	{
+	if(lastobj!=null)
+	{
+	lastobj.style.background="";
+	lastobj.style.color="";
+	}
+	obj.style.background="#DDDDDD";
+	obj.style.color="black";
+	lastobj=obj;
+	}
+</script>
+<script type="text/javascript"> 
+function fankui(a){
+	window.open("__URL__/shangjifankui?id="+a, "", "toolbar=no,height=635,width=874");
+	return false;
+}
+function execlput(){
+	window.open("__URL__/execlput2?selectid={$temptselecttime}&start={$tempstartdate}&end={$tempjieshudate}&kind={$temptype}&guanjianzi={$tempkeywords}&count={$count}", "", "toolbar=no,height=220,width=780");
+	return false;
+}
+</script>
+<link href="__PUBLIC__/guanli/css/pagecss.css" rel="stylesheet" type="text/css" /><!--分页-->
+<!--提示确认动画样式-->
+<script src="__PUBLIC__/windows/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/windows/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body style="background-color:white;margin:-13 0 20px 0;">      
+  <div class="content">
+	<button class="layui-btn" id="button_add" onclick="return execlput()" style="background-color:#228B22;float:left;background-color:blue;">导出当前execl</button>
+	<button id="button_add" class="height:50px;line-height:50px;" onclick="window.location.href = 'javascript:history.go(-1);'">返回之前</button>
+    <table id="table-1" cellspacing='0' border="1" style="text-align: center;font-size:15px;">
+	    <tr>
+			<td  colspan=13>
+				<div class="manu" style="float:left;height:10px;line-height:10px;font-size:12px;">
+					{$Page}<!--colspan=12 跨12列 -->
+				</div>
+				 
+				<span style="color:red;">注意：跟踪详情显示为最新一次更新进度。如需查看全部反馈和商机详情，点击：跟进。</span>
+				<span style="float:right;height:25px;">
+				<form  name="setpaixu" action="__URL__/setpaixu" method="POST" > 
+					排序(降序,过期时间为正序):
+					<select name="setid" style="height:22px;">
+					<if condition="$_SESSION['sjpaixu'] eq 1 or $_SESSION['sjpaixu'] eq null"> 	
+						<option value="1">录入时间(当前)</option>
+						<option value="2">最后跟踪时间</option>
+						<option value="3">过期时间</option>
+					<else />
+						<if condition="$_SESSION['sjpaixu'] eq 2"> 	
+							<option value="2">最后跟踪时间(当前)</option>
+							<option value="1">录入时间</option>
+							<option value="3">过期时间</option>
+						<else />
+							<option value="3">过期时间(当前)</option>
+							<option value="2">最后跟踪时间</option>
+							<option value="1">录入时间</option>
+						</if>
+					</if>
+					</select>&nbsp;
+					<input type="submit" name="anniu"  value="设置" style="height:22px;" />
+				</form>
+				</span>
+			</td>
+	    </tr>
+      <tr>
+        <th style="width:2px;">ID</th>
+		<th style="width:50px;">对接人</th>
+		<th style="width:35px;">过期</th>
+		<th style="width:48px;">状态</th>
+        <th style="width:40px;">网格</th>
+		<th width="80px;">涉及产品</th>
+		<th width="20%">企业名称</th>
+        <th style="width:30px;">行业</th>
+        <!-- <th width="6%">项目预算</th> -->
+        <!-- <th width="6%">参与金额</th> -->
+		<th width="50px">客户经理</th>
+		<th width="80px"> 录入时间</th>
+		<th width="80px">最新跟踪</th>
+		<th>最新跟踪</th>
+		<th width="135px">操作</th>
+      </tr>
+	<if condition="$list eq null"> 
+	    <tr>
+			<td colspan=13>当前无商机记录</td><!--colspan=12 跨12列 -->
+	    </tr>
+	<else />
+		<volist name="list" id="vo" key="k">	
+		<if condition="$vo.Shangji_zhuangtai eq  '已签约' or $vo.Shangji_zhuangtai eq  '商机丢失' or  $vo.Shangji_zhuangtai eq  '已过期'"> 
+		  <tr id="tr_{$vo.Shangji_id}" style="color:#909090;">
+		<else />
+		  <tr onclick=current(this) id="tr_{$vo.Shangji_id}">
+		</if>
+			<td>{$k}</td>
+			<td>
+				<a href="__URL__/searchshangji?titleid=3&kind=Shangji_adminperson&guanjianzi={$vo.Shangji_adminperson}" style="text-decoration:none;" >
+					{$vo.Shangji_adminperson|mb_substr=0,4,'utf-8'}
+				</a>
+			</td>
+			<if condition="$vo.Shangji_zhuangtai eq  '已签约' or $vo.Shangji_zhuangtai eq  '商机丢失' or  $vo.Shangji_zhuangtai eq  '已过期'"> 
+				<TD align="center"  title="{$vo.Shouquan_days}">0天</TD> 
+			<else />
+				<if condition="$vo.shengyudays elt 15">
+				<TD align="center"  title="请注意，商机即将过期！">
+					<strong style="color:red">
+				<else />
+				<TD align="center"  title="{$vo.shengyudays}">
+					<strong style="color:blue">
+				</if>
+						{$vo.shengyudays|mb_substr=0,3,'utf-8'}</strong>天
+					
+				</TD>
+			</if>
+			<td>
+				{$vo.Shangji_zhuangtai|mb_substr=0,6,'utf-8'}
+			</td>
+			<td>
+				<a href="__URL__/searchshangji?titleid=4&kind=Shangji_localwg&guanjianzi={$vo.Shangji_localwg}" style="text-decoration:none;" >
+					{$vo.Shangji_localwg|mb_substr=0,6,'utf-8'}
+				</a>
+			</td>
+			<td style="font-size:10px;">
+				<textarea style="font-size:10px;resize: none;height:20px;border: 1; width:100%;" >{$vo.Shangji_product}</textarea>
+			</td>
+		<if condition="$vo.Shangji_level eq '重要'"> 
+			<td title="{$vo.Shangji_companyname}" style="background-color:#FFFFBB ;background:url('__PUBLIC__/Images/imp.gif');background-repeat: no-repeat;background-position: left top;">
+		<else />
+			<td title="{$vo.Shangji_companyname}">
+		</if>	
+				{$vo.Shangji_companyname|mb_substr=0,20,'utf-8'}
+			</td>
+			<td>
+				{$vo.Shangji_custhangye|mb_substr=0,10,'utf-8'}
+			</td>
+			<!-- <td> -->
+				<!-- {$vo.Shangji_projectyusuan|mb_substr=0,11,'utf-8'} -->
+			<!-- </td> -->
+			<!-- <td> -->
+				<!-- {$vo.Shangji_projectcanyu|mb_substr=0,10,'utf-8'} -->
+			<!-- </td> -->
+			<td>
+				<a href="__URL__/searchshangji?titleid=3&kind=Shangji_custmanager&guanjianzi={$vo.Shangji_custmanager}" style="text-decoration:none;" >
+					{$vo.Shangji_custmanager|mb_substr=0,4,'utf-8'}
+				</a>
+			</td>
+			<td title="{$vo.Shangji_date}">
+				{$vo.Shangji_date|mb_substr=0,10,'utf-8'}
+			</td>
+			<td title="{$vo.Shangji_lastchulidate}">
+				{$vo.Shangji_lastchulidate|mb_substr=0,10,'utf-8'}
+			</td>
+			<td title="{$vo.Shangji_lastbeizhu}" align="left">
+				<textarea style="font-size:11px;resize: none;height:20px;border: 1; width:100%;" >{$vo.Shangji_lastbeizhu}</textarea>
+			</td>
+			<td>
+				<a rel="modal" class="nyroModal" onclick="return fankui('{$vo.Shangji_id}')" id="button_edt" style="background-color:green" >跟进</a>&nbsp;
+			<if condition="$vo.Shangji_person eq  $loginusers['Person_name'] or $loginusers['Person_biaoshi'] eq 1 or $loginusers['Person_biaoshi'] eq 2 "> 
+				<a href="javascript:void(0)" id="button_edt" onclick="edithtml({$vo.Shangji_id})" >编辑</a>&nbsp;
+				<a href="javascript:void(0)" id="button_del" onclick="del_shangji({$vo.Shangji_id})" >删除</a>
+			<else />
+				<a href="javascript:void(0)" style="background-color:#909090;" id="button_edt" onclick="errorjieguo('只能编辑自己创建的！')" >编辑</a>&nbsp;
+				<a href="javascript:void(0)"  style="background-color:#909090;" id="button_del" onclick="errorjieguo('只能删除自己创建的！')" >删除</a>
+			</if>
+			</td>
+		  </tr>
+		  </volist>
+	</if>
+    </table><br />
+  </div>
+  <div class="flickr" style="font-size:12px;">
+	{$Page}<!--colspan=12 跨12列 -->
+  </div>
+  <!-- 自动搜索 or $Person_bumen eq '管理员专用组' del_article -->
+  <script type="text/javascript" src="__PUBLIC__/smalldoc/biao/js/jquery.min.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/smalldoc/biao/js/lin_search.js"></script>
+  <script type="text/javascript">
+    var table = document.getElementById("table-1");
+    var input = document.getElementById("lin")
+    input.onkeyup = function () {
+      new Search(table, input)
+    }
+  </script>
+  <!-- 自动搜索  -->
+  
+<script src="__PUBLIC__/ajax/jquery-1.8.2.min.js"></script> <!-- 自动搜索  -->
+  
+<script type="text/javascript">
+    //提交
+        document.getElementById('btn').onclick = function () { 
+			//验证数据为空
+			if(!myForm.kind.value){
+				myForm.kind.focus();
+				return errorjieguo("请选择类型！");
+			}
+			if(!myForm.guanjianzi.value){
+				myForm.guanjianzi.focus();
+				return errorjieguo("请输入关键字！");
+			}
+			loading("搜索中");
+        }
+	function edithtml(edttid){
+					var xhr=new XMLHttpRequest();
+					var url='__URL__/edt_shangji?id='+edttid;
+					xhr.open('get',url);
+					xhr.send(null);
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							if(xhr.responseText==0){
+								return errorjieguo("编辑项可能不存在！");
+							}else{
+								window.location.href = "__URL__/edt_shangji?id="+edttid;
+							}
+						};
+					}
+		
+	}
+	
+	
+	
+	function loading(s){
+		showLoading({
+			title: s, //提示文字
+			icon: 'loading', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 50000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+		
+		});
+		setTimeout(function() {
+			hideLoading()
+		}, 2000)
+	}
+	function del_shangji(catid){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: "确认要删除吗？注意：商机反馈也一同删除哦！",  //提示的内容
+			showCancel: true,  //是否显示取消按钮，默认为 true
+			cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '确定',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					var xhr=new XMLHttpRequest();
+					var url='__URL__/del_shangji?id='+catid;
+					xhr.open('get',url);
+					xhr.send(null);
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							if(xhr.responseText==1){
+								document.getElementById('tr_'+catid).remove();
+								return successjieguo();
+							}else if(xhr.responseText==0){
+								return errorjieguo("删除失败，该记录可能不存在！");
+							}else{
+								return errorjieguo("其他错误，请联系管理员！");
+							}
+						};
+					}
+						
+				} else {
+					console.log('取消');
+				}
+			}
+		});
+	}
+	function daochuexecl(catid){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: "确认要删除吗？",  //提示的内容
+			showCancel: true,  //是否显示取消按钮，默认为 true
+			cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '确定',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					var xhr=new XMLHttpRequest();
+					var url='__URL__/del_user?id='+catid;
+					xhr.open('get',url);
+					xhr.send(null);
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							if(xhr.responseText==1){
+								document.getElementById('tr_'+catid).remove();
+								return successjieguo();
+							}else if(xhr.responseText==0){
+								return errorjieguo("删除失败，该记录可能不存在！");
+							}else{
+								return errorjieguo("其他错误，请联系管理员！");
+							}
+						};
+					}
+						
+				} else {
+					console.log('取消');
+				}
+			}
+		});
+	}
+	function errorjieguo(a){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: a,  //提示的内容
+			titleColor:'red',
+			showCancel: false,  //是否显示取消按钮，默认为 true
+			cancelText: 'no',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '已知晓',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					console.log('yes');
+				} else {
+					console.log('no');
+				}
+			}
+		});
+	}
+	function successjieguo(){
+		showLoading({
+			title: "删除成功！", //提示文字
+			icon: 'success', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 1000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+		
+		});
+		
+	}
+</script>
+</body>
+</html>

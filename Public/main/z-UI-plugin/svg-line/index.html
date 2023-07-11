@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <title>svg左右连线插件</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/svg-line.css"/>
+    <script type="text/javascript" src="js/svg-line.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+        function htmlEncode(s){
+            return (typeof s != "string") ? s :
+                s.replace(/"|&|'|<|>|[\x00-\x20]|[\x7F-\xFF]|[\u0100-\u2700]/g,
+                    function($0){
+                        var c = $0.charCodeAt(0), r = ["&#"];
+                        c = (c == 0x20) ? 0xA0 : c;
+                        r.push(c); r.push(";");
+                        return r.join("");
+                    });
+        }
+    </script>
+    <style>
+		body{margin:0}
+        .p20{padding: 10px 20px;}
+        .a-btn{font-weight: bold;cursor: pointer;color: #337ab7;font-size: 18px;margin-left: 10px;}
+        em{color: red;font-style: normal}
+        .br-table{table-layout: fixed;width: 100%}
+        .br-table tr:first-child>td,th{
+            text-align: center;
+        }
+        .br-table td:first-child,th:first-child{
+            font-weight: bold;
+        }
+        .br-table td,th{
+            border-top: 1px solid #aaa;padding: 5px;
+            border-left: 1px solid #aaa;
+            font-size: 14px;line-height: 200%;
+        }
+        .br-table tr:last-child>td{
+            border-bottom: 1px solid #aaa;
+        }
+        .br-table tr>td:last-child{
+            border-right: 1px solid #aaa;
+        }
+        .br-table tr>th:last-child{
+            border-right: 1px solid #aaa;
+        }
+
+        .lt-tr.blue .list-box ul>li:not(.active):not(.disabled):hover{
+            background-color: #337ab7;color: white;border: none;box-shadow: 0 0 10px 0 #337ab7;
+        }
+        .lt-tr.blue .list-box ul>li.active:hover{
+            background-color: #337ac7;color: white;border: none;box-shadow: 0 0 10px 0 #337ac7;
+        }
+        .lt-tr.blue .list-tool .list-tool-indiv>div>i{
+            color:#337ab7!important;
+        }
+        .lt-tr.blue .list-box ul>li.active{
+            background-color: #337ab7;color: white;
+        }
+    </style>
+</head>
+<body class="full">
+<div id="mainDiv" class="full" style="padding: 10px 50px;box-sizing: border-box;">
+    <h3 class="p20">预览效果</h3>
+    <div class="p20" style="width: 100%;">
+        点击连线可以删除连线；可以将线连接到连线之上
+    </div>
+    <div style="width: 100%;display: flex;flex-direction: row">
+        <div id="aaa1" style="width: 500px;border: 1px solid #aaa;box-shadow: darkgrey 0 0 10px 0;margin: 20px;">
+
+        </div>
+        <div id="aaa2" style="width: 600px;border: 1px solid #aaa;box-shadow: darkgrey 0 0 10px 0;margin: 20px;">
+
+        </div>
+    </div>
+    <div class="p20">
+        <button onclick="alert(JSON.stringify(obj1.getData()));">获得数据</button>
+        <button onclick="resize()">重置宽度</button>
+        <button onclick="obj2.setData({'sh':'hs','t':'f'});">设置连线</button>
+        <button onclick="addOptions('leftList')">动态插入选项</button>
+        <button onclick="deleteOptions()">动态删除选项</button>
+    </div>
+    <h3 class="p20">答题连线</h3>
+    <div style="width: 100%;display: flex;flex-direction: row">
+        <div id="aaa3" style="width: 500px;border: 1px solid #aaa;box-shadow: darkgrey 0 0 10px 0;margin: 20px;">
+
+        </div>
+        <div id="aaa4" style="width: 500px;border: 1px solid #aaa;box-shadow: darkgrey 0 0 10px 0;margin: 20px;">
+
+        </div>
+
+    </div>
+    <div class="p20" style="width: 100%;">
+        <button onclick="getResult()">提交答案</button>
+
+    </div>
+    <h3 class="p20">回调事件</h3>
+    <div class="p20" style="width: 100%;display: flex;flex-direction: row">
+        <textarea rows="10" id="msg" style="width: 600px;outline: none">回调事件</textarea>
+
+    </div>
+
+    <h3 class="p20">调用方式</h3>
+    <div class="p20">
+        <pre>
+            <script>
+                document.write(htmlEncode("var obj2 = $(\"#aaa2\").svgLine({\n" +
+                    "            //列表中选项的尺寸(支持sm、md、lg)\n" +
+                    "            size:'md',\n" +
+                    "            //皮肤，默认只支持green\n" +
+                    "            skin:'green',\n" +
+                    "            //左边列表标题\n" +
+                    "            headerLeft:'MODULE1',\n" +
+                    "            headerRight:'MODULE2',\n" +
+                    "            //选项中文名称的字段名\n" +
+                    "            name:'name',\n" +
+                    "            //选项的唯一标识的字段名,\n" +
+                    "            key:'key',\n" +
+                    "            //左边列表选项\n" +
+                    "            leftList:[\n" +
+                    "                {name:'天',key:'t',disable:true,icon:'fa fa-bandcamp'},{name:'雨',key:'y'},{name:'大陆',key:'dl'},{name:'山花',key:'sh'},{name:'赤日',key:'cr'}\n" +
+                    "                ],\n" +
+                    "            rightList: [\n" +
+                    "                {name:'地',key:'d'},{name:'风',key:'f'},{name:'长空',key:'ck'},{name:'苍穹',key:'cq'},{name:'海树',key:'hs'}\n" +
+                    "            ],\n" +
+                    "            //映射关系\n" +
+                    "            mapping:{'sh':'hs','cr':'cq','t':'d','y':'f','dl':'ck'},\n" +
+                    "            width:'600px',\n" +
+                    "            //选择映射时回调\n" +
+                    "            onSelect:function(l1,l2){\n" +
+                    "                appendMsg($(\"#msg\"),\"您连接了\"+l1+\"和\"+l2);\n" +
+                    "            },\n" +
+                    "            //删除映射时回调\n" +
+                    "            onCancle:function(l1,l2){\n" +
+                    "                appendMsg($(\"#msg\"),\"您取消了\"+l1+\"和\"+l2);\n" +
+                    "            },\n" +
+                    "        });\n" +
+                    "        //触发宽度重置\n" +
+                    "        obj2.resize(宽度);\n" +
+                    "        //获得数据\n" +
+                    "        alert(JSON.stringify(obj2.getData()));"));
+            </script>
+        </pre>
+    </div>
+    <h3 class="p20">svgLine方法的参数说明</h3>
+    <div class="p20">
+        <table class="br-table" cellspacing="0">
+            <tr><th width="160px">参数名</th><th>含义</th><th>取值范围</th></tr>
+            <tr><td>headerLeft</td>
+                <td>左边列表标题</td><td>任意值（支持html）</td>
+            </tr>
+            <tr><td>headerRight</td>
+                <td>右边列表标题</td><td>任意值（支持html）</td>
+            </tr>
+            <tr><td>leftList</td>
+                <td>左列表选项</td><td>数组，数组中的每个元素是一个选项，每个选项都需要定义key和name属性</td>
+            </tr>
+            <tr><td>rightList</td>
+                <td>右列表选项</td><td>数组</td>
+            </tr>
+            <tr><td>mapping</td>
+                <td>初始连线关系</td><td>左列表key值和右列表key值得关系</td>
+            </tr>
+            <tr><td>width</td>
+                <td>控件外部宽度</td><td>px或者%</td>
+            </tr>
+            <tr><td>size</td>
+                <td>控件选项的高度</td><td>只支持sm、md或lg，默认为sm</td>
+            </tr>
+            <tr><td>skin</td>
+                <td>控件皮肤</td><td>默认为green，可进行自定义拓展</td>
+            </tr>
+            <tr><td>removAble</td>
+                <td>选项是否显示移除按钮</td><td>true或false，默认为true，可控制所有选项是否可以手动删除，优先级小于选项自身的removable属性</td>
+            </tr>
+        </table>
+    </div>
+    <h3 class="p20">leftList和rightList选项的参数说明</h3>
+    <div class="p20">
+        <table class="br-table" cellspacing="0">
+            <tr><th width="160px">参数名</th><th>含义</th><th>取值范围</th></tr>
+            <tr><td>key</td>
+                <td>选项唯一标识，同一侧列表中的key值不能重复</td><td>不能包含特殊字符，建议为字母数字或者下划线</td>
+            </tr>
+            <tr><td>name</td>
+                <td>选项显示的名称</td><td>可为任意值</td>
+            </tr>
+            <tr><td>icon</td>
+                <td>选项图标</td><td>图标的class名称，例如fa fa-plus</td>
+            </tr>
+            <tr><td>removable</td>
+                <td>是否可以移除选项，选项会显示删除按钮，优先级高于全局的removAble属性</td><td>true或者false，默认为true</td>
+            </tr>
+            <tr><td>disable</td>
+                <td>选项是否可选，当选项中包含disable属性且值为true时，该选项不可选中，且与这个选项相连的选项无法被取消</td><td>true或者false，默认为false</td>
+            </tr>
+        </table>
+    </div>
+    <h3 class="p20">API</h3>
+    <div class="p20">
+        <table class="br-table" cellspacing="0">
+            <tr><th width="160px">方法名称</th><th>方法说明</th><th>参数</th><th>返回值</th></tr>
+            <tr><td>getData()</td>
+                <td>获得当前连线关系数据</td><td>(空)</td><td>return {左列表key1:右列表key1,左列表key2:右列表key2,...}</td>
+            </tr>
+            <tr><td>setData(map)</td>
+                <td>修改连线关系</td><td>映射关系：<br>map={左列表key1:右列表key1,左列表key2:右列表key2,...}</td><td>(空)</td>
+            </tr>
+            <tr><td>resize(w)</td>
+                <td>重置插件外部宽度</td><td>宽度值：100px、100%，w为空时等用于refresh()方法<br>示例：resize('100px')</td><td>(空)</td>
+            </tr>
+            <tr><td>refresh()</td>
+                <td>刷新插件视图</td><td>(空)</td><td>(空)</td>
+            </tr>
+            <tr><td>addOptions(opt)</td>
+                <td>动态添加选项，对于列表中已存在的key值的选项，不会添加到列表中</td><td><pre>opt={
+    //左列表中要添加的选项
+    leftList:[
+             {name:'新选项',key:'k1'}
+    ],
+    //右列表中要添加的选项
+    rightList:[
+             {name:'新选项',key:'k2'}
+    ]
+}</pre></td><td>(空)</td>
+            </tr>
+            <tr><td>deleteOptions(opt)</td>
+                <td>动态删除选项，若选项已经存在连线，连线也会被删除</td><td><pre>opt={
+    //左列表中要删除的选项
+    leftList:['key1','key2',...],
+    //右列表中要删除的选项
+    rightList:['key1','key2',...]
+}</pre></td><td>(空)</td>
+            </tr>
+            <tr><td>getUl()</td>
+                <td>获得ul的jquery对象，返回的是$(dom)对象</td><td>(空)</td><td><pre>return {
+    left:左列表ul的$(dom)对象,
+    right:右列表的ul的$(dom)对象
+}</pre></td>
+            </tr>
+
+        </table>
+    </div>
+    <h3 class="p20">回调函数</h3>
+    <div class="p20">
+        <table class="br-table" cellspacing="0">
+            <tr><th width="160px">函数名</th><th>触发条件</th><th>参数列表</th></tr>
+            <tr><td>onSelect(key1,key2)</td>
+                <td>连接两个选项时触发</td><td>key1：左列表选项的key<br>key2：右列表选项的key</td>
+            </tr>
+            <tr><td>onCancle(key1,key2)</td>
+                <td>取消两个选项时触发</td><td>key1：左列表选项的key<br>key2：右列表选项的key</td>
+            </tr>
+        </table>
+    </div>
+    <h3 class="p20">拓展自定义皮肤样式</h3>
+    <div class="p20">
+        默认只支持green，可以在传入的skin参数中，添加自定义样式，假设skin值为"blue"，需要先使用下面这段样式来声明"blue"：
+        <pre>
+            <script>
+                document.write(htmlEncode(".lt-tr.blue .list-box ul>li:not(.active):not(.disabled):hover{\n" +
+                    "            background-color: #337ab7;color: white;border: none;box-shadow: 0 0 10px 0 #337ab7;\n" +
+                    "        }\n" +
+                    "        .lt-tr.blue .list-box ul>li.active:hover{\n" +
+                    "            background-color: #337ac7;color: white;border: none;box-shadow: 0 0 10px 0 #337ac7;\n" +
+                    "        }\n" +
+                    "        .lt-tr.blue .list-tool .list-tool-indiv>div>i{\n" +
+                    "            color:#337ab7!important;\n" +
+                    "        }\n" +
+                    "        .lt-tr.blue .list-box ul>li.active{\n" +
+                    "            background-color: #337ab7;color: white;\n" +
+                    "        }"));
+            </script>
+        </pre>
+
+    </div>
+</div>
+
+</body>
+
+<script>
+
+    var obj1;
+    $(function(){
+        obj1 = $("#aaa1").svgLine({
+            removAble:false,
+            //左边列表标题
+            headerLeft:'左列表',
+            headerRight:'右列表',
+            //左边列表选项
+            leftList:[
+                {key:'c1'},{key:'c2'},{key:'c3',removable:true},
+                {key:'c4'},{key:'c5'},{key:'c6'},
+                {key:'c7'},{key:'c9'},{key:'c10'},
+                {key:'c11'},{key:'c12',disable:true}],
+            rightList: [
+                {key:'p1'},{key:'p2'},{key:'c3',disable:true},
+                {key:'p4'},{key:'p5'},{key:'p6'},
+                {key:'p7'},{key:'p8'},{key:'p9'},
+                {key:'p10'},{key:'p11'},{key:'p12'},
+            ],
+            //映射关系
+            mapping:{"c1":"p2","c2":"p1","c6":"p5","c9":"p11","c3":"p4"},
+            //选择回调
+            onSelect:function(l1,l2){
+                appendMsg($("#msg"),"您连接了"+l1+"和"+l2);
+            },
+            //删除回调
+            onCancle:function(l1,l2){
+                appendMsg($("#msg"),"您取消了"+l1+"和"+l2);
+            },
+        });
+        obj2 = $("#aaa2").svgLine({
+            //选项尺寸
+            size:'md',
+            //皮肤
+            skin:'blue',
+            //左边列表标题
+            headerLeft:'上联<i class="fa fa-plus a-btn" onclick="addOptions(\'leftList\')" title="新增"></i>',
+            headerRight:'下联<i class="fa fa-plus a-btn" onclick="addOptions(\'rightList\')" title="新增"></i>',
+            //左边列表选项
+            leftList:[
+                {name:'天',key:'t',icon:'fa fa-plus'},
+                {name:'雨',key:'y',icon:'fa fa-asterisk'},
+                {name:'大陆',key:'dl',icon:'fa fa-bandcamp'},
+                {name:'山花',key:'sh',icon:'fa fa-book'},
+                {name:'赤日',key:'cr',icon:'fa fa-connectdevelop'}
+                ],
+            rightList: [
+                {name:'地',key:'d',icon:'fa fa-bug',removable:true},
+                {name:'风',key:'f',disable:true,icon:'fa fa-bullseye',},
+                {name:'长空',key:'ck',icon:'fa fa-calendar-check-o'},
+                {name:'苍穹',key:'cq',icon:'fa fa-check-square-o'},
+                {name:'海树',key:'hs',icon:'fa fa-cog'}
+            ],
+            //映射关系
+            //mapping:{},
+            width:'600px',
+            //选择回调
+            onSelect:function(l1,l2){
+                appendMsg($("#msg"),"您连接了"+l1+"和"+l2);
+            },
+            //删除回调
+            onCancle:function(l1,l2){
+                appendMsg($("#msg"),"您取消了"+l1+"和"+l2);
+            },
+        });
+        obj3 = $("#aaa3").svgLine({
+            size:'lg',
+            //左边列表标题
+            headerLeft:'小学生都会的四则运算题',
+            headerRight:'答案',
+            //左边列表选项
+            leftList:[
+                {name:'1 + 1',key:'e1'},{name:'2 * 4',key:'e2'},{name:'19 - 7',key:'e3'}
+                ],
+            rightList: [
+                {name:'12',key:'r1'},{name:'8',key:'r2'},{name:'2',key:'r3'}
+            ],
+        });
+        obj4 = $("#aaa4").svgLine({
+            size:'lg',
+            //左边列表标题
+            headerLeft:'历史题',
+            headerRight:'答案',
+            //左边列表选项
+            leftList:[
+                {name:'明太祖是谁？（问题来自电影《百变星君》）',key:'e1'}
+                ],
+            rightList: [
+                {name:'A.朱元璋',key:'r1'},{name:'B.朱头皮',key:'r2'},{name:'xi.朱茵',key:'r3'},{name:'D.猪猪侠',key:'r4'}
+            ],
+            onSelect:function(l,r){
+                if(({'e1':'r1'})[l]!=r){
+                    alert("你觉得对就好！");
+                }
+            }
+        });
+
+        setTimeout(function(){
+            obj2.setData({'sh':'hs','cr':'cq','t':'f','y':'d','dl':'ck'});
+        },1000);
+
+    });
+    function appendMsg(o,m){
+        o.html(o.html()+" "+m)
+            .scrollTop(o[0].scrollHeight);
+    }
+    function resize(){
+        //重置宽度
+        $("#aaa1").width(600);
+        obj1.resize();
+        $("#aaa2").width(700);
+        obj2.resize('700px');
+        obj2.resize('100%');
+    }
+    //获得答题结果
+    function getResult(){
+        //r1、r2为正确结果
+        var r1 = {'e1':'r3','e2':'r2','e3':'r1'};
+        var r2 = {'e1':'r1'};
+        var d1 = obj3.getData();
+        var d2 = obj4.getData();
+        //答对和答错的计数
+        var suc = 0,err = 0;
+        for(var e in r1){
+            if(r1[e] == d1[e]){
+                suc++;
+            }else{
+                err++;
+            }
+        }
+        r2['e1'] == d2['e1'] ? suc ++ : err++;
+        alert("您答对了"+suc+"道，答错"+err+"道");
+        obj3.setData(r1);
+        obj4.setData(r2);
+    }
+    //动态添加选项
+    function addOptions(d){
+        var ds = {};
+        ds[d] = [
+            {name:'我是新插入的选项',key:"l_"+new Date().getTime()}
+        ];
+        obj2.addOptions(ds);
+        var uls = obj2.getUl();
+        uls.left.scrollTop(uls.left[0].scrollHeight);
+        uls.right.scrollTop(uls.right[0].scrollHeight);
+    }
+    //动态删除选项
+    function deleteOptions(){
+        var id = $(".lt-tr[sid=2] .lul li").last().attr('key');
+        if(id){
+            //根据key值来删除选项，leftList、rightList
+            obj2.deleteOptions({
+                leftList:[
+                    id
+                ],
+            });
+        }
+
+    }
+
+</script>
+
+
+</html>

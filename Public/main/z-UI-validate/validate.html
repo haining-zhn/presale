@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html style="height: 100%;width:100%" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <title>梦工厂</title>
+	<script type="text/javascript" src="../z-UI.js"></script>
+	<script type="text/javascript" src="../z-UI-tab/js/z-UI.tab.js"></script>
+	<script type="text/javascript" src="../z-UI-alert/js/z-UI.alert.js"></script>
+	<script type="text/javascript" src="js/verify.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../z-UI.css"/>
+    <link rel="stylesheet" type="text/css" href="css/validate.css"/>
+	<link rel="stylesheet" type="text/css" href="../z-UI-alert/css/z-UI.alert.css"/>
+</head>
+<body style="overflow-x: hidden">
+<div class="zUI-card md" zUI-folder="show" style="width: 100%;">
+    <div class="zUI-card-title zUI-bg-blue zUI-white">
+        <div class="text">自带的默认验证</div>
+    </div>
+    <div class="zUI-card-wrap">
+        <form id="testForm" zUI-form>
+            <table class="zUI-table">
+                <tr><th>表单名称</th><th>表单元素</th><th>验证表达式</th><th>验证表达式含义</th></tr>
+                <tr><td>用户名</td>
+                    <td><input class="zUI-input" type="text" name="userName" zUI-verify zUI-tip="用户名不能为空"></td><td>(空)或者required</td><td>非空验证</td>
+                </tr>
+                <tr><td>年龄</td>
+                    <td><input class="zUI-input" type="text" name="age" zUI-verify="integer" zUI-tip="年龄请输入0或正整数"></td><td>integer</td><td>可为空的自然数</td>
+                </tr>
+                <tr><td>电话</td>
+                    <td><input class="zUI-input" type="text" name="phone" zUI-verify="phone" zUI-tip="电话格式不正确" value="111"></td><td>phone</td><td>可为空的电话号码</td>
+                </tr>
+                <tr><td>邮箱</td>
+                    <td><input class="zUI-input" type="text" name="email" zUI-verify="email,required" zUI-tip="邮箱格式不正确"></td><td>email,required</td><td>邮箱且不能为空</td>
+                </tr>
+                <tr><td>英文字母</td>
+                    <td><input class="zUI-input" type="text" name="email" zUI-verify="required,letter" zUI-tip="请输入英文字母"></td><td>required,letter</td><td>不可以为空的英文字母</td>
+                </tr>
+                <tr><td>数值</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="number" zUI-tip="请输入数值" value="1.234"></td><td>number</td><td>请输入数值</td>
+                </tr>
+                <tr><td>长度验证（固定长度）</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="required,integer,length[12]" zUI-tip="数值不能为空且长度为12位"></td><td>required,integer,length[12]</td><td>数值不能为空且长度为12位</td>
+                </tr>
+                <tr><td>长度验证（范围长度1）</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="letter_number,length[3-10]" zUI-tip="请输入长度为3-10位的数字、字母或下划线" value="aaaaaaaaaaa"></td>
+                    <td>letter_number,length[3-10]</td><td>请输入长度为3-10位的数字、字母或下划线</td>
+                </tr>
+                <tr><td>长度验证（范围长度2）</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="letter_number,length[3-]" zUI-tip="请输入长度为3位以上的数字、字母或下划线" value="aaaaaaaaaaa"></td>
+                    <td>letter_number,length[3-]</td><td>请输入长度为3位以上的数字、字母或下划线</td>
+                </tr>
+                <tr><td>长度验证（范围长度3）</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="letter_number,length[-10]" zUI-tip="请输入长度为10位以下的数字、字母或下划线" value="aaaaaaaaaaa"></td>
+                    <td>letter_number,length[-10]</td><td>请输入长度为10位以下的数字、字母或下划线</td>
+                </tr>
+                <tr><td>专业</td>
+                    <td>
+                        <select class="zUI-input" zUI-verify zUI-tip="下拉框不能为空" style="width: 200px;">
+                            <option value="">请选择</option>
+                            <option value="1">java</option>
+                            <option value="2">python</option>
+                        </select>
+                    </td><td></td><td>下拉框验证</td>
+                </tr>
+                <tr><td>描述</td>
+                    <td>
+                        <textarea class="zUI-input" rows="5" zUI-verify="length[10-100]" zUI-tip="文本域需要10-150字"></textarea>
+                    </td><td>length[10-150]</td><td>文本域需要10-150字</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" style="text-align: center"><button class="zUI-btn info" type="button" id="subtn">提交</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="zUI-card md" zUI-folder="show" style="width: 100%;">
+    <div class="zUI-card-title zUI-bg-blue zUI-white">
+        <div class="text">自定义验证</div>
+    </div>
+    <div class="zUI-card-wrap">
+        <form id="testForm2" zUI-form>
+            <table class="zUI-table">
+                <tr><th>表单名称</th><th>表单元素</th><th>验证表达式</th><th>验证表达式含义</th></tr>
+
+                <tr><td>自定义</td>
+                    <td><input class="zUI-input" type="text" zUI-verify="testCheck1"></td><td>testCheck1</td><td>先定义函数
+                        <br>function testCheck1(v){<br>&nbsp;&nbsp;&nbsp;&nbsp;return v =='1' ? true : '请输入1';<br>}<br>再添加验证：zUI.validate.addVerify("#testForm",{<br>&nbsp;&nbsp;&nbsp;&nbsp;testCheck1:testCheck1<br>})</td>
+                </tr>
+                <tr><td>包装表单元素的背景容器</td>
+                    <td>
+                        <div zUI-verify="testDivCheck" zUI-tip="请至少勾选2个checkbox" style="display: inline-block;">
+                            <input type="checkbox" name="checkTest" value="1">
+                            <input type="checkbox" name="checkTest" value="2">
+                            <input type="checkbox" name="checkTest" value="3">
+                        </div>
+                        &nbsp;
+                        <div zUI-verify="testDivRadio" style="display: inline-block;">
+                            <input type="radio" name="radioTest" value="1">
+                            <input type="radio" name="radioTest" value="2">
+                            <input type="radio" name="radioTest" value="3">
+                        </div>
+                    </td>
+                    <td>testDivCheck</td>
+                    <td>	先定义函数
+                        function testDivCheck(){<br>&nbsp;&nbsp;&nbsp;&nbsp;
+                        return $("#checkTest").prop("checked") ? true : "请勾选checkbox";
+                        <br>}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center"><button class="zUI-btn info" type="button" id="subtn2">提交</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="zUI-card md" zUI-folder="show" style="width: 100%;">
+    <div class="zUI-card-title zUI-bg-blue zUI-white">
+        <div class="text">html</div>
+    </div>
+    <div class="zUI-card-wrap">
+
+        <pre class="use-code">
+        <script>
+            document.write(zUI.util.htmlEncode('<form id="testForm" zUI-form>\n' +
+                '        <input type="text" name="userName" zUI-verify zUI-tip="用户名不能为空">\n' +
+                '        <input type="text" name="age" zUI-verify="integer" zUI-tip="年龄请输入0或正整数">\n' +
+                '        <input type="text" name="phone" zUI-verify="required,phone" zUI-tip="电话格式不正确">\n' +
+                '        <input type="text" name="email" zUI-verify="email,required" zUI-tip="邮箱格式不正确">\n' +
+                '        <input type="text" name="email" zUI-verify="required,letter" zUI-tip="请输入英文字母">\n' +
+                '        <input type="text" zUI-verify="number" zUI-tip="请输入数值" value="1.234">\n' +
+                '        <input type="text" zUI-verify="required,integer,length[12]" zUI-tip="数值最大为12位">\n' +
+                '        <input type="text" zUI-verify="letter_number,length[3-10]" zUI-tip="请输入长度为3-10位的数字、字母或下划线" value="!">\n' +
+                '        <select zUI-verify zUI-tip="下拉框不能为空" style="width: 200px;">\n' +
+                '           <option value="">请选择</option>\n' +
+                '           <option value="1">java</option>\n' +
+                '           <option value="2">python</option>\n' +
+                '        </select>\n' +
+                '        <input type="text" zUI-verify="testCheck1">\n' +
+                '        <div zUI-verify="testDivCheck" zUI-tip="请至少勾选2个checkbox" style="display: inline-block;">\n' +
+                '           <input type="checkbox" name="checkTest" value="1">\n' +
+                '           <input type="checkbox" name="checkTest" value="2">\n' +
+                '           <input type="checkbox" name="checkTest" value="3">\n' +
+                '        </div>\n' +
+                '        <div zUI-verify="testDivRadio" style="display: inline-block;">\n' +
+                '           <input type="radio" name="radioTest" value="1">\n' +
+                '           <input type="radio" name="radioTest" value="2">\n' +
+                '           <input type="radio" name="radioTest" value="3">\n' +
+                '        </div>\n' +
+                '    </form>'))
+        </script>
+    </pre>
+    </div>
+</div>
+<div class="zUI-card md" zUI-folder="show" style="width: 100%;">
+    <div class="zUI-card-title zUI-bg-blue zUI-white">
+        <div class="text">js</div>
+    </div>
+    <div class="zUI-card-wrap">
+
+        <pre class="use-code">
+        //修改配置
+        zUI.validate.extend({
+            //一个中文占多少长度
+            cht:2,
+            msgSec:'\n',
+            errorCallback:function(msg){
+                alert(msg);
+            }
+        });
+
+        zUI.validate.addVerify("#testForm",{
+            testCheck1:function(v){
+                return v =='1' ? true : '请输入1';
+            },
+            testDivCheck: function(){
+                return $("input[name=checkTest]:checked").length > 1 ? true : "请至少勾选2个checkbox";
+            },
+            testDivRadio:function(){
+                return $("input[name=radioTest]:checked").length > 0 ? true : "请勾选radio";
+            }
+        });
+        $("#subtn").click(function (){
+            if(zUI.validate.verify("#testForm")){
+                alert('验证通过');
+            }
+        });
+    </pre>
+    </div>
+</div>
+
+    <p>在表单元素中加入"zUI-verify"属性来指定验证类型，加入"zUI-tip"属性来指定验证失败的返回信息，例如：
+        <script>
+            document.write(zUI.util.htmlEncode('<input type="text" zUI-verify="integer" zUI-tip="请输入自然数">'));
+        </script>
+        <br>
+        注意：这些表单元素必须位于form元素内，且form元素有"zUI-form"属性时，验证才会生效
+    </p>
+    <p>需要同时满足多个验证时，使用英文逗号来分隔验证标识，例如：或者required,integer,testCheck1</p>
+
+    <script>
+        zUI.tab.loadPanel({
+            elem:'.zUI-card',
+            change: function(type){
+                console.log(type);
+            },
+            close:function(){
+                console.log('close');
+                //return false时取消关闭
+            }
+        });
+        zUI.validate.extend({
+            msgSec:'<br>',
+            errorCallback:function(msg){
+                zUI.dialog.alert(msg);
+            }
+        });
+        zUI.validate.addVerify("#testForm2",{
+            testCheck1:function(v){
+                return v =='1' ? true : '请输入1';
+            },
+            testDivCheck: function(){
+                return document.querySelectorAll("input[name=checkTest]:checked").length > 1 ? true : "请至少勾选2个checkbox";
+            },
+            testDivRadio:function(){
+                return document.querySelectorAll("input[name=radioTest]:checked").length > 0 ? true : "请勾选radio";
+            }
+        });
+        document.querySelector("#subtn").onclick=function (){
+            if(zUI.validate.verify("#testForm")){
+                zUI.dialog.alert('验证通过');
+            }
+        };
+        document.querySelector("#subtn2").onclick=function (){
+            if(zUI.validate.verify("#testForm2")){
+                zUI.dialog.alert('验证通过');
+            }
+        };
+
+    </script>
+</body>

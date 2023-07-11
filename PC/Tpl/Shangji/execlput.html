@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商机导出</title>
+<link href="__PUBLIC__/admin/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/admin/js/main.js"></script>
+<style>
+	#button_execlput{
+		min-width: 60px;
+		font-size: 12px;
+		margin-right: 20px;
+		float:center;
+		height:26px;
+		background-color: #0000FF;
+		color: #fff;
+		border: none;
+		padding: 3px;
+		text-decoration:none;
+		border-radius:5px;
+		outline: none;
+		display: inline-block;
+	}
+</style>
+</head>
+<body>
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置： <img src="__PUBLIC__/admin/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;商机管理&nbsp;&nbsp; <img src="__PUBLIC__/admin/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;商机导出</td>
+  </tr>
+  <tr>
+    <td style="height:34px; background-image:url(__PUBLIC__/admin/images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="20" height="34"><img src="__PUBLIC__/admin/images/main_headerL.gif" width="20" height="34"></td>
+          <td style="color:#90c8e8;"><img src="__PUBLIC__/admin/images/icon_card.gif" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>商机导出</strong></td>
+		  </td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="100%" valign="top">
+    <!-- <div style="overflow:auto;height:100%; width:100%"> -->
+      <table border="0" cellpadding="3" cellspacing="1" class="table1">
+
+        <TR >
+          <th style="width:120px;"><strong>时间条件</strong></th>
+          <TD colspan="3" class="BGCgray" style="width:600px;">
+			 <form name="search"  action="__URL__/execlputaction" method="get" style="width:98%;height:auto;margin:0 5%;">
+					<select name="select2" required="true" id="select2" style="height:28px;">
+						<option value="">-请选择-</option>
+						<option value="Shangji_date">-录入时间-</option>
+						<option value="Shangji_lastchulidate">-最后跟踪时间-</option>
+						<option value="Shangji_startdate">-项目开始时间-</option>
+						<option value="Shangji_projectzhaobiao">-预计招标时间-</option>
+					</select>&nbsp;
+					<input  type="text" required="true" style="height:28px;width:140px;" class="sang_Calender" placeholder="请选择开始时间" name="startdate" />
+					<script type="text/javascript" src="__PUBLIC__/admin/js/date/datetime.js"></script>&nbsp;
+					<input type="text" required="true" style="height:28px;width:140px;" class="sang_Calender" name="jieshudate" placeholder="请选择结束时间" />&nbsp;
+					<script type="text/javascript" src="__PUBLIC__/admin/js/date/datetime.js"></script>
+					<input type="submit"  id="button_execlput" name="anniu" class="imgbtn" value="导出" />
+					<input type="hidden" name="biaoshi" class="imgbtn" value="2" />
+			 </form>
+		  </TD>
+        </TR>
+        <TR>
+        <th style="width:120px;"><strong>网格</strong></th>
+          <TD colspan="3" class="BGCgray">
+			 <form name="search"  action="__URL__/execlputaction" method="get" style="width:68%;height:auto;margin:0 20%;">录入时间
+				<select name="nianfen" id="nianfen" style="height:28px;">
+					<option value="0">-不限时间-</option>
+					<option value="{$year01}">-{$year01}-</option>
+					<option value="{$year02}">-{$year02}-</option>
+					<option value="{$year03}">-{$year03}-</option>
+					<option value="{$year04}">-{$year04}-</option>
+				</select>
+				<select name="Shangji_localwg" id="second" required="true">
+					<option value="">-请选择-</option>
+				<volist name="wanggelist" id="vo" key="k" empty="为空">	
+					<option value="{$vo.Sitesdzc_name}">-{$vo.Sitesdzc_name}-</option>
+				</volist>
+				</select>&nbsp;
+				<input type="submit"  id="button_execlput" name="anniu" class="imgbtn" value="导出" />
+				<input type="hidden" name="biaoshi" class="imgbtn" value="3" />
+			 </form>
+		  </TD>
+        </TR>
+        <TR >
+          <th style="width:120px;"><strong>状态</strong></th>
+          <TD colspan="3" class="BGCgray">
+			 <form name="search"  action="__URL__/execlputaction" method="get" style="width:68%;height:auto;margin:0 20%;">录入时间
+				<select name="nianfen" id="nianfen" style="height:28px;">
+					<option value="0">-不限时间-</option>
+					<option value="{$year01}">-{$year01}-</option>
+					<option value="{$year02}">-{$year02}-</option>
+					<option value="{$year03}">-{$year03}-</option>
+					<option value="{$year04}">-{$year04}-</option>
+				</select>
+					<select name="Shangji_zhuangtai" required="true"  style="height:28px;">
+						<option value="">-请选择-</option>
+						<option value="已报价">-已报价-</option>
+						<option value="已签约">-已签约-</option>
+						<option value="跟进中">-跟进中-</option>
+                        <option value="商机丢失">-商机丢失-</option>
+					</select>&nbsp;
+					<input type="submit"  id="button_execlput" name="anniu" class="imgbtn" value="导出" />
+					<input type="hidden" name="biaoshi" class="imgbtn" value="4" />
+			 </form>
+		  </TD>
+        </TR>
+        <TR>
+          <th style="width:120px;"><strong>全部导出</strong></th>
+          <TD colspan="3" class="BGCgray"><BUTTON style="margin:0 40%;" id="button_execlput" onClick="javascript:if (confirm('确定要全部导出吗？')) location.href='__URL__/execlputaction?biaoshi=1';else return;">全部导出</BUTTON></TD>
+        </TR>
+      </table>
+    <!-- </div> -->
+	</td>
+  </tr>
+</table>
+</body>
+</html>

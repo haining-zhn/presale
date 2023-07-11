@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>商机导出</title>
+<link href="__PUBLIC__/admin/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="__PUBLIC__/admin/js/main.js"></script>
+<style>
+	#button_execlput{
+		min-width: 60px;
+		font-size: 12px;
+		margin-right: 20px;
+		float:center;
+		height:26px;
+		background-color: #0000FF;
+		color: #fff;
+		border: none;
+		padding: 3px;
+		text-decoration:none;
+		border-radius:5px;
+		outline: none;
+		display: inline-block;
+	}
+</style>
+</head>
+<body>
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
+  <tr>
+    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置： <img src="__PUBLIC__/admin/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;商机管理&nbsp;&nbsp; <img src="__PUBLIC__/admin/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;商机导出</td>
+  </tr>
+  <tr>
+    <td style="height:34px; background-image:url(__PUBLIC__/admin/images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="20" height="34"><img src="__PUBLIC__/admin/images/main_headerL.gif" width="20" height="34"></td>
+          <td style="color:#90c8e8;"><img src="__PUBLIC__/admin/images/icon_card.gif" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>商机导出</strong></td>
+		  </td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="100%" valign="top">
+    <!-- <div style="overflow:auto;height:100%; width:100%"> -->
+      <table border="0" cellpadding="3" cellspacing="1" class="table1">
+  <form name="search"  action="__URL__/execlputaction" method="get" style="width:98%;height:auto;margin:0 5%;">
+        <TR >
+          <th style="width:120px;"><strong>条件选择</strong></th>
+          <TD align="center" colspan="3" class="BGCgray" style="width:600px;">
+					<input  type="text" required="true" style="height:28px;width:130px;" class="sang_Calender" placeholder="请选择开始时间" name="startdate" />
+					<script type="text/javascript" src="__PUBLIC__/admin/js/date/datetime.js"></script>&nbsp;
+					<input type="text" required="true" style="height:28px;width:130px;" class="sang_Calender" name="jieshudate" placeholder="请选择结束时间" />&nbsp;
+					<script type="text/javascript" src="__PUBLIC__/admin/js/date/datetime.js"></script>
+					<select name="shangjiqx" style="height:28px;">
+							<option value="1">-全部-</option>
+						<volist name="qxlist" id="vo" key="k" empty="为空">	
+							<option value="{$vo.Sitesdzc_name}">-{$vo.Sitesdzc_name}-</option>
+						</volist>
+					</select>&nbsp;
+					<select name="shangjizhuangtai"  style="height:28px;">
+						<option value="1">-全部商机-</option>
+						<option value="2" title="商机设置里自定义状态">-设置自定义-</option>
+					</select>&nbsp;
+					<select name="select2" required="true" style="height:28px;">
+						<option value="">-请选择-</option>
+						<option value="Shangji_date">-录入时间-</option>
+						<option value="Shangji_lastchulidate">-最后跟踪时间-</option>
+						<option value="Shangji_startdate">-项目开始时间-</option>
+						<option value="Shangji_projectzhaobiao">-预计招标时间-</option>
+						<option value="Shangji_qianyuedate">-签约时间-</option>
+					</select>&nbsp;
+
+		  </TD>
+        </TR>
+        <TR >
+          <th style="width:120px;"><strong>字段筛选</strong></th>
+          <TD colspan="3" class="BGCgray" style="width:600px;padding:10px;">
+			<input type="checkbox" name="Shangji_id"  value="Shangji_id/商机ID" />商机ID
+			<input type="checkbox" name="Shangji_localqx"  value="Shangji_localqx/所属区县" checked />所属区县
+			<input type="checkbox" name="Shangji_localwg"  value="Shangji_localwg/所属网格" checked />所属网格
+			<input type="checkbox" name="Shangji_localwgid"  value="Shangji_localwgid/网格ID" checked />网格ID 
+			<input type="checkbox" name="Shangji_companyname"  value="Shangji_companyname/客户公司名称"  checked />客户公司名称
+			<input type="checkbox" name="Shangji_custname"  value="Shangji_custname/客户联系人" />客户联系人
+			<input type="checkbox" name="Shangji_custphone"  value="Shangji_custphone/客户联系方式" />客户联系方式
+			<input type="checkbox" name="Shangji_companylocal"  value="Shangji_companylocal/客户公司地址" />客户公司地址
+			<input type="checkbox" name="Shangji_projectname"  value="Shangji_projectname/项目名称"  checked />项目名称
+			<input type="checkbox" name="Shangji_product"  value="Shangji_product/涉及的产品"  checked />涉及的产品
+			<input type="checkbox" name="Shangji_custhangye"  value="Shangji_custhangye/所属行业"  checked />所属行业
+			<input type="checkbox" name="Shangji_level"  value="Shangji_level/客户等级"  checked />客户等级
+			<input type="checkbox" name="Shangji_projectyusuan"  value="Shangji_projectyusuan/项目预算"  checked />项目预算
+			<input type="checkbox" name="Shangji_projectcanyu"  value="Shangji_projectcanyu/预计可参与金额"  checked />预计可参与金额
+			<input type="checkbox" name="Shangji_projectzhaobiao"  value="Shangji_projectzhaobiao/招标时间"  checked />招标时间
+			<input type="checkbox" name="Shangji_custmanager"  value="Shangji_custmanager/客户经理"  checked />客户经理
+			<input type="checkbox" name="Shangji_custmanageradmin"  value="Shangji_custmanageradmin/网格主任"  checked />网格主任
+			<input type="checkbox" name="Shangji_startdate"  value="Shangji_startdate/项目开始时间" />项目开始时间
+			<input type="checkbox" name="Shangji_zhuangtai"  value="Shangji_zhuangtai/商机状态"   checked/>商机状态
+			<input type="checkbox" name="Shangji_lastchulidate"  value="Shangji_lastchulidate/最后处理时间" checked />最后处理时间
+			<input type="checkbox" name="Shangji_lastbeizhu"  value="Shangji_lastbeizhu/最后处理详情" checked />最后处理详情
+			<input type="checkbox" name="Shangji_person"  value="Shangji_person/创建人" />创建人
+			<input type="checkbox" name="Shangji_date"  value="Shangji_date/录入时间" />录入时间
+			<input type="checkbox" name="Shangji_beizhu"  value="Shangji_beizhu/备注" checked />备注
+			<input type="checkbox" name="Shangji_datetime"  value="Shangji_datetime/过期时间" />过期时间
+			<input type="checkbox" name="Shangji_qianyuedate"  value="Shangji_qianyuedate/签约时间" />签约时间
+			<input type="checkbox" name="Shangji_qianyueway"  value="Shangji_qianyueway/签约计费方式" />签约计费方式
+			<input type="checkbox" name="Shangji_qianyuejine"  value="Shangji_qianyuejine/签约金额(万元)" />签约金额(万元)
+			<input type="checkbox" name="Shangji_adminperson"  value="Shangji_adminperson/商机对接人" />商机对接人
+			<input type="checkbox" name="Shangji_laiyuan"  value="Shangji_laiyuan/商机来源" checked />商机来源
+		  </TD>
+        </TR>
+        <TR >
+          <TD  align="center" colspan="4" class="BGCgray" style="width:600px;">
+			<input type="submit"  id="button_execlput" name="anniu" class="imgbtn" value="导出" />
+			<input type="hidden" name="biaoshi" class="imgbtn" value="2" />
+		</form>
+			<BUTTON id="button_execlput" style="background-color:green;" onClick="javascript:if (confirm('确定要全部导出吗？')) location.href='__URL__/execlputaction?biaoshi=1';else return;">全部导出（固定模板）</BUTTON>
+			<BUTTON id="button_execlput" style="background-color:#787878;" onClick="javascript:if (confirm('该导入功能为网站管理员操作项！')) location.href='__ROOT__/Public/数据库商机模板导入.csv';else return;">批量导入模板</BUTTON>
+		  </TD>
+        </TR>
+      </table>
+    <!-- </div> -->
+	</td>
+  </tr>
+</table>
+</body>
+</html>

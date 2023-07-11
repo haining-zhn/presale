@@ -1,0 +1,362 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>{$website["Webset_sitename"]}-登录</title>
+<!-- <script src="__PUBLIC__/login/login.js"></script> -->
+<script language="javascript">
+if (top.location != self.location)top.location=self.location;  //检测网页被开启时，是否在最top，如果被包在框架中，就会挣脱框架。
+</script>
+<link rel="shortcut icon" href="__ROOT__/1.ico"/>
+<style>
+* {
+	margin:0;
+	padding:0;
+	
+}
+body {
+	height:100%;
+	margin:-21.5px 0 0 0;
+	
+}
+.login-bg {
+	height:100%;
+	background-image:linear-gradient(160deg,#D0D0D0 20%,#D0D0D0 80%);
+	position:relative;
+}
+.content {
+	position:absolute;
+	width:320px;
+	height:400px;
+	background:rgba(255,255,255,.9);
+	border-radius:10px;
+	top:50%;
+	left:50%;
+	margin-left:-160px;
+	margin-top:-230px;
+	padding:10px 20px;
+	box-sizing:border-box;
+}
+.title h2 {
+	font-size:22px;
+	line-height:60px;
+	color:#333;
+	font-weight:bold;
+	text-align:center;
+}
+.login-center {
+	height:50px;
+	border-radius:5px;
+	border:1px solid #00ACED;
+	margin-bottom:30px;
+	line-height:50px;
+	padding:0 10px;
+	box-sizing:border-box;
+}
+.login-center .t-name {
+	font-size:14px;
+	float:left;
+	height:100%;
+	width:58px;
+}
+.login-center .inp {
+	font-size:14px;
+	float:left;
+	border:none;
+	background:transparent;
+	height:100%;
+	outline:none;
+}
+.login-center .inp.code-inp {
+	width:120px;
+}
+.login-center .get-code {
+	float:right;
+	height:100%;
+}
+.login-center .get-code .code-btn {
+	color:#a07941;
+	font-size:12px;
+	border:1px solid #a07941;
+	border-radius:5px;
+	padding:5px;
+	box-sizing:border-box;
+	cursor:pointer;
+}
+.login-button {
+	background-color:#1e90ff;
+	height:50px;
+	border-radius:5px;
+	font-size:18px;
+	color:#fff;
+	text-align:center;
+	line-height:50px;
+	cursor:pointer;
+}
+
+/*图片轮播 */
+.slideshow li{ list-style:none;}
+/*将span的width和height占满整个视图，并将span里面的文字变为不可见，直接用transprant*/
+/*设置opacity:0;之后我们通过在动画中去改变这个值*/
+.slideshow li span{
+    width:100%; height:100%;
+    position:absolute;
+    top:0px; left:0px;
+    color:transparent;
+    background-size:cover;
+    background-position:50% 50%;
+    background-repeat:no-repeat;
+    opacity:0;
+    z-index:0;
+    -webkit-backface-visibility: hidden;
+    -webkit-animation: imageAnimation 18s linear infinite 0s;
+    -moz-animation: imageAnimation 18s linear infinite 0s;
+    -o-animation: imageAnimation 18s linear infinite 0s;
+    -ms-animation: imageAnimation 18s linear infinite 0s;
+    animation: imageAnimation 18s linear infinite 0s;
+}
+/*接下来将定义所有span的背景图片和动画的延迟，所以每一个滑动的图片和title出现在上一个出现之后的6秒*/
+.slideshow li:nth-child(1) span {
+    background-image: url({$website["Webset_loginurl1"]});
+}
+.slideshow li:nth-child(2) span {
+    background-image: url({$website["Webset_loginurl2"]});
+    -webkit-animation-delay: 6s;
+    -moz-animation-delay: 6s;
+    -o-animation-delay: 6s;
+    -ms-animation-delay: 6s;
+    animation-delay: 6s;
+}
+.slideshow li:nth-child(3) span {
+    background-image: url({$website["Webset_loginurl3"]});
+    -webkit-animation-delay: 12s;
+    -moz-animation-delay: 12s;
+    -o-animation-delay: 12s;
+    -ms-animation-delay: 12s;
+    animation-delay: 12s;
+}
+.slideshow li:nth-child(2) div {
+    -webkit-animation-delay: 6s;
+    -moz-animation-delay: 6s;
+    -o-animation-delay: 6s;
+    -ms-animation-delay: 6s;
+    animation-delay: 6s;
+}
+.slideshow li:nth-child(3) div {
+    -webkit-animation-delay: 12s;
+    -moz-animation-delay: 12s;
+    -o-animation-delay: 12s;
+    -ms-animation-delay: 12s;
+    animation-delay: 12s;
+}
+/*设置图片动画关键帧*/
+@-webkit-keyframes imageAnimation {
+    0% { opacity: 0;
+    -webkit-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -webkit-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-moz-keyframes imageAnimation {
+    0% { opacity: 0;
+    -webkit-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -webkit-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-o-keyframes imageAnimation {
+    0% { opacity: 0;
+    -webkit-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -webkit-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-ms-keyframes imageAnimation {
+    0% { opacity: 0;
+    -webkit-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -webkit-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@keyframes imageAnimation {
+   0% { opacity: 0;
+    -webkit-animation-timing-function: ease-in; }
+    8% { opacity: 1;
+         -webkit-animation-timing-function: ease-out; }
+    17% { opacity: 1 }
+    50% { opacity: 0 }
+    100% { opacity: 0 }
+}
+/*设置文字动画关键帧*/
+@-webkit-keyframes titleAnimation {
+    0% { opacity: 0 }
+    8% { opacity: 1 }
+    17% { opacity: 1 }
+    35% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-moz-keyframes titleAnimation {
+     0% { opacity: 0 }
+    8% { opacity: 1 }
+    17% { opacity: 1 }
+    35% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-o-keyframes titleAnimation {
+     0% { opacity: 0 }
+    8% { opacity: 1 }
+    17% { opacity: 1 }
+    35% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@-ms-keyframes titleAnimation {
+    0% { opacity: 0 }
+    8% { opacity: 1 }
+    17% { opacity: 1 }
+    35% { opacity: 0 }
+    100% { opacity: 0 }
+}
+@keyframes titleAnimation {
+     0% { opacity: 0 }
+    8% { opacity: 1 }
+    17% { opacity: 1 }
+    35% { opacity: 0 }
+    100% { opacity: 0 }
+}
+/*有些浏览器不支持animation的，我们将会简单的展示最后一张图片*/
+.no-cssanimation .slideshow li span{opacity:1;}
+/*设置不同分辨率时title的字体大小*/
+@media screen and (max-width: 1140px) {
+    .cb-slideshow li div h3 { font-size: 140px }
+}
+@media screen and (max-width: 600px) {
+    .cb-slideshow li div h3 { font-size: 80px }
+}
+</style>
+</head>
+<body>
+<div class="login-bg">
+    <ul class="slideshow">
+        <li>
+            <span>图1</span>
+        </li>
+        <li>
+            <span>图2</span>
+        </li>
+        <li>
+            <span>图3</span>
+        </li>
+    </ul>
+    <div class="content">
+
+        <div class="title">
+			<img src="__ROOT__/1.ico" style="width:13%;height:10%;margin:10px;border-radius:20px" /><strong>{$website["Webset_sitename"]}</strong>
+            <h2 style="line-height:60px;font-size:20px;">用户登录-<a href="{$Think.config.sitehelpurl}"  style="text-decoration:none;color:#AAAAAA"" target="parent">文档</a></h2>
+        </div>
+	<form class="layui-form" name="myForm" id="fm"  enctype="multipart/form-data">
+        <div class="form-box">
+            <div class="login-center">
+                <span class="t-name">账号：</span><input type="text" name="zhanghao" required="true" id="tel_num" class="inp phone-inp" value="" placeholder="请输入您的账号">
+            </div>
+            <div class="login-center">
+                <span class="t-name">密码：</span><input type="password" name="mima" required="true" id="code_num" class="inp code-inp" value="" placeholder="请输入您的密码">
+            </div>
+			<!-- <div class="verify-wrap"  style="margin:15px 0;" id="verify-wrap2"></div> -->
+			<input type="button" class="login-button" id="getState2" style="width:100%;border:1px;" value="登陆" />
+        </div>
+		<span style="width:100%;margin-top:20px;display:inline-block;font-size:12px;text-align:center;color:#AAAAAA">
+			<a href="{$website['Webset_adminurl']}"  style="text-decoration:none;color:#AAAAAA"" target="parent">{$website["Webset_adminname"]}</a><br />
+			<a href="{$website['Webset_icpurl']}"  style="text-decoration:none;color:#AAAAAA"" target="parent">{$website["Webset_icpname"]}</a>
+		</span>
+	</form>
+    </div>
+</div>
+<!--提示确认动画样式-->
+<script src="__PUBLIC__/windows/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+<script src="__PUBLIC__/windows/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script>
+    //提交
+        document.getElementById('getState2').onclick = function () { 
+			//验证数据为空
+			if(!myForm.zhanghao.value){
+				myForm.zhanghao.focus();
+				return ;
+			}
+			if(!myForm.mima.value){
+				myForm.mima.focus();
+				return;
+			}
+			//找到表单DOM对象
+            var fm = document.getElementById('fm');
+            // 创建FormData对象并传递表单
+            var fd = new FormData(fm);
+			var url='__URL__/APP_loginaction';
+            var xhr = new XMLHttpRequest();
+            //接口fd：收到提交的数据后会返回收到的数据
+            xhr.open('POST',url, '/fd');
+            xhr.send(fd);
+
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					if(xhr.responseText!=1){
+						return errorjieguo(xhr.responseText);
+					}else{ 
+						return successjieguo();	
+					}
+				};
+
+			};
+        }
+    //重置
+    function resetFrom()
+    {
+        //重置表单
+        document.getElementsByName("myForm")[0].reset();
+    }
+	function successjieguo(){
+		showLoading({
+			title: "登录成功！", //提示文字
+			icon: 'success', // 图标，有效值 "success", "loading", "none"
+			image: '', // 自定义图标的本地路径，image 的优先级高于 icon
+			duration: 2000, //提示的延迟时间，单位毫秒，默认：1500
+			mask: true, // 是否显示透明蒙层，防止触摸穿透，默认：false
+			success: function(res) { //接口调用成功的回调函数
+				console.log(JSON.stringify(res))
+			},
+			
+		});
+		window.location.href = "__APP__/Main/main" ;
+	}
+	function errorjieguo(a){
+		showModal({ 
+			title: "温馨提示",  //提示的标题
+			content: a,  //提示的内容
+			titleColor:'red',
+			showCancel: false,  //是否显示取消按钮，默认为 true
+			cancelText: 'no',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+			cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+			cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色 
+			confirmText: '已知晓',
+			confirmColor: '#fff',
+			confirmBgColor: '#55aaff',
+			success: function(res) {
+				if (res.confirm) {
+					console.log('yes');
+				} else {
+					console.log('no');
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>

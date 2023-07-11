@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>商机图表</title>
+</head>
+<body>
+	<div style="float:left;margin:4px 40px 5px 40px;font-size:14px;padding:2px 0;font-family:'Sofia';color:#404040;">
+		<form  name="myForms" action="__URL__/tubiaoindexset" method="get">
+			<strong>时间筛选(商机录入时间)</strong>&nbsp;
+				<if condition="$_SESSION['tustartdate'] eq NULL">
+					<input  type="date" required="true"  class="sang_Calender" placeholder="请选择开始时间" name="startdate" />&nbsp;
+					<input  type="date" required="true"  class="sang_Calender" placeholder="请选择结束时间" name="enddate"  />
+				<else />
+					<input  type="date" required="true"  class="sang_Calender" placeholder="请选择开始时间" name="startdate" value="{$_SESSION['tustartdate']}" />&nbsp;
+					<input  type="date" required="true"  class="sang_Calender" placeholder="请选择结束时间" name="enddate" value="{$_SESSION['tuenddate']}" />
+				</if>
+			<input type="hidden" name="kind" value="Person_localwg">
+			（默认所有时间）  |  &nbsp;签约经理排行（默认所有网格）
+				<select name="guanjianzi" lay-verify="required">
+				<if condition="$_SESSION['tuguanjianzi'] eq NULL">
+					
+				<else />
+					<option value="{$_SESSION['tuguanjianzi']}">-{$_SESSION['tuguanjianzi']}(当前)-</option>
+				</if>
+					<option value="全网格">-全网格-</option>
+					<volist name="Sitelist" id="vo" key="k"> 
+						<if condition="$vo.Sitesdzc_name  eq $_SESSION['tuguanjianzi']">
+						<else />
+							<option value="{$vo.Sitesdzc_name}">-{$vo.Sitesdzc_name}-</option>
+						</if>	
+					</volist>
+				</select>&nbsp;
+			<input type="submit" name="anniu" class="layui-btn" id="btns" lay-submit  value="设置" style="width:60px;height:22px;font-size:12px;" onclick="submitFrom()" />
+			<em style="color:red;">(只对本次登录有效)</em>
+		</form>
+	</div>
+	
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width:95%;height:320px;margin: 0 auto"></div>
+	 <!-- ;margin-top:80px;控制距离顶部距离 -->
+	<div id="main2" style="width:95%;height:320px;margin: 0 auto;margin-top:5px;"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+				'echarts/chart/line'
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                var myChart = ec.init(document.getElementById('main')); 
+				var myChart2 = ec.init(document.getElementById('main2'));
+                
+        
+				//监听页面的尺寸变化，动态改变echarts的尺寸
+				 window.onresize = function () { 
+					 myChart.resize();
+					 myChart2.resize();
+				 }
+				
+				
+				
+                var option = { //具体细节的描述
+                                    title: {
+                                        text: '商机状态汇总',
+                                        textStyle: { //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                                            fontSize: 12,
+                                            fontStyle: 'normal',
+                                            fontWeight: 'bold',
+                                        },
+                                    },
+                                    tooltip: {
+                                        trigger: 'axis'
+                                    },
+                                    legend: {
+									   data: [ 
+											<volist name='list22' id='vo' key='k'>             								 //设置表列出
+												'{$vo.siteset_content}',
+											</volist>
+									   ]
+                                    },
+                                    toolbox: { //可以选择具体数据，柱状图，折线图，还原，保存图片的的切换选择
+                                        show: true,
+                                        feature: {
+                                            dataView: {
+                                                show: true,
+                                                readOnly: false
+                                            },
+                                            magicType: {
+                                                show: true,
+                                                type: ['line', 'bar'] //可选折线图和柱状图
+                                            },
+                                            restore: {
+                                                show: true  //恢复默认
+                                            },
+                                            saveAsImage: {
+                                                show: true // 存储为图片的功能
+                                            }
+                                        }
+                                    },
+                                    calculable: true,
+                                    xAxis: [{
+                                        type: 'category',
+										//name: 'min_sup(%)'			
+										data: [
+											<volist name='Sitelist' id='vo' key='k'>            							//区县表列出
+												'{$vo.Sitesdzc_name}',
+											</volist>
+										],
+										name: '网格',
+										position: 'left'
+                                    }],
+                                    yAxis: [{
+                                        type: 'value',
+										name: '数量',
+										position: 'left'
+                                    }],
+                                    series: [{
+                                            name: '{$list2201}',                    										//设置表列出  
+                                            type: 'bar',// bar
+										//	symbolSize:8,
+                                         //   data: [10,8,5,6,9,4,8,7,2,1,3,2,1,3,5,6],
+											data: [
+												<volist name='newArr1' id="vo" key="k">
+													'{$vo.newArr1}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        //    color: '#CC0066'
+                                        },
+                                        {
+                                            name: '{$list2202}',					//设置表列出
+                                            type: 'bar',//bar
+											data: [
+												<volist name='newArr2' id="vo" key="k">
+													'{$vo.newArr2}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        },
+                                        {
+                                            name: '{$list2203}',
+                                            type: 'bar',//bar
+											data: [
+												<volist name='newArr3' id="vo" key="k">
+													'{$vo.newArr3}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        },
+                                        {
+                                            name: '{$list2204}',
+                                            type: 'bar',//bar
+											data: [
+												<volist name='newArr4' id="vo" key="k">
+													'{$vo.newArr4}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        },
+                                        {
+                                            name: '{$list2205}',
+                                            type: 'bar',//bar
+											data: [
+												<volist name='newArr5' id="vo" key="k">
+													'{$vo.newArr5}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        },
+                                        {
+                                            name: '{$list2206}',
+                                            type: 'bar',//bar
+											data: [
+												<volist name='newArr6' id="vo" key="k">
+													'{$vo.newArr6}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}
+													}
+												}
+                                        }
+                                    ]
+                                };
+								
+								
+								
+                var option2 = { //具体细节的描述
+                                    title: {
+                                        text: '签约排行TOP30',
+                                        textStyle: { //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                                            fontSize: 12,
+                                            fontStyle: 'normal',
+                                            fontWeight: 'bold',
+                                        },
+                                    },
+                                    tooltip: {
+                                        trigger: 'axis'
+                                    },
+                                    legend: {
+									   data: ["已签约"]
+                                    },
+                                    toolbox: { //可以选择具体数据，柱状图，折线图，还原，保存图片的的切换选择
+                                        show: true,
+                                        feature: {
+                                            dataView: {
+                                                show: true,
+                                                readOnly: false
+                                            },
+                                            magicType: {
+                                                show: true,
+                                                type: ['line', 'bar'] //可选折线图和柱状图
+                                            },
+                                            restore: {
+                                                show: true  //恢复默认
+                                            },
+                                            saveAsImage: {
+                                                show: true // 存储为图片的功能
+                                            }
+                                        }
+                                    },
+                                    calculable: true,
+                                    xAxis: [{
+                                        type: 'category',
+										//name: 'min_sup(%)'
+                                        data: [
+											<volist name='sjcustmanager' id='vo' key='k'>            							//客户经理
+												'{$vo.Shangji_custmanager}',
+											</volist>
+										],
+										name: '网格',
+										position: 'left'
+                                    }],
+                                    yAxis: [{
+                                        type: 'value',
+										name: '数量',
+										position: 'left'
+                                    }],
+                                    series: [{
+                                            name: '已签约',
+                                            type: 'line',// bar
+											data: [
+												<volist name='sjcustmanager' id="vo" key="k">
+													'{$vo.num}',
+												</volist>
+											],
+											itemStyle:{
+													normal:{
+														label : {
+															show: true // 在折线拐点上显示数据
+														}//,
+														//	lineStyle:{                 
+														//	  width:3,  // 设置虚线宽度
+														//	  type:'dotted'  // 虚线'dotted' 实线'solid'
+														//	}
+														}
+													}
+                                        }
+                                    ]
+                                };			
+        
+                // 为echarts对象加载数据 
+                myChart.setOption(option); 
+				myChart2.setOption(option2);
+            }
+        );
+    </script>
+</body>

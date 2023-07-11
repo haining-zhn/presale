@@ -1,0 +1,206 @@
+
+.zUI-shadow{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;left: 0;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.3;
+    z-index: 19960607;
+    filter:alpha(opacity=30);
+}
+.zUI-box *{
+    box-sizing: border-box;
+}
+.zUI-box{
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    z-index: 19960607;
+    display: none;
+    width: auto;
+    font: 14px Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif;
+    border-radius: 2px;
+    box-shadow: 1px 3px 9px 1px rgba(0,0,0,.3);
+    background-color: white;
+    min-height: 173px;
+    min-width: 220px;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,.3), Direction=125, Strength=9);
+}
+.zUI-box.animate{
+    display: inline-block;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all 160ms ease-in-out;
+    transition: all 160ms ease-in-out;
+}
+.zUI-box .zUI-title{
+    background-color: #0099ff;
+    color: white;
+    border-radius: 2px 2px 8px 8px;
+    width: 100%;
+    height: 42px;
+    line-height: 42px;
+    font-size: 16px;
+    display: inline-block;
+    overflow: hidden;
+}
+.zUI-box .zUI-title.draggable{
+    cursor: move;
+}
+.zUI-box .zUI-content{
+    padding: 0 2px;
+    width: 100%;
+    min-height: 86px;
+    min-width: 220px;
+    font-size: inherit;
+    overflow: auto;
+}
+.zUI-box .zUI-content.not-btn{
+    min-height: 131px;
+}
+.zUI-box .zUI-title>h1{
+    width: 100%;
+    padding-left: 1em;
+    margin: 0;
+    font-weight: 400;
+    color: white;
+    line-height: inherit;
+}
+.zUI-box .zUI-title>div{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 10px;
+}
+.zUI-box .zUI-title>div>a{
+    cursor: pointer;
+    font: 500 1.3em/15px Tahoma;
+}
+.zUI-box .zUI-title>div>a:hover{
+    color: #ddd;
+}
+
+.zUI-box .zUI-btns{
+    padding: 8px 15px 2px 15px;
+    border-top: 1px solid #ddd;
+    height: 45px;
+    text-align: center;
+    pointer-events: auto;
+    -webkit-user-select: none;
+    overflow: hidden;
+}
+
+.zUI-box .zUI-resize{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: inline-block;
+    min-width: 10px;
+    min-height: 10px;
+    cursor: se-resize;
+}
+
+.zUI-tip{
+    display: inline-block;
+    position: absolute;
+    background-color: white;
+    color: #3a3a3a;
+    border: 1px solid #0099ff;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+/*箭头向左*/
+.zUI-tip:before{
+    box-sizing: content-box;
+    width: 0;
+    height: 0;
+    position: absolute;
+    padding:0;
+    border-top:8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: block;
+    content:'';
+    z-index: 12;
+}
+.zUI-tip:after{
+    box-sizing: content-box;
+    width: 0;
+    height: 0;
+    position: absolute;
+    padding:0;
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+    display: block;
+    content:'';
+    z-index:10;
+}
+.zUI-tip.left:before{
+    top: calc(50% - 8px);
+    left: 100%;
+    border-left: 8px solid #FFFFFF;
+    border-right:8px solid transparent;
+}
+.zUI-tip.left:after{
+    top: calc(50% - 9px);
+    left: 100%;
+    border-left: 9px solid #0099ff;
+    border-right:9px solid transparent;
+}
+/*箭头向右边*/
+.zUI-tip.right:before{
+    top: calc(50% - 8px);
+    left: -16px;
+    border-right: 8px solid #FFFFFF;
+    border-left:8px solid transparent;
+}
+.zUI-tip.right:after{
+    top: calc(50% - 9px);
+    left: -18px;
+    border-right: 9px solid #0099ff;
+    border-left:9px solid transparent;
+}
+/*箭头向上边*/
+.zUI-tip.up:before{
+    top: calc(100% - 1px);
+    left: calc(50% - 9px);
+    border-right: 8px solid transparent;
+    border-left:8px solid transparent;
+    border-top:9px solid white;
+    border-bottom: 9px solid transparent;
+
+}
+.zUI-tip.up:after{
+    top: 100%;
+    left: calc(50% - 9px);
+    border-right: 8px solid transparent;
+    border-left:8px solid transparent;
+    border-top:9px solid #0099ff;
+    border-bottom: 9px solid transparent;
+}
+/*箭头向下边*/
+.zUI-tip.down:before{
+    top: -18px;
+    left: calc(50% - 9px);
+    border-right: 8px solid transparent;
+    border-left:8px solid transparent;
+    border-top:9px solid transparent;
+    border-bottom: 9px solid white;
+}
+.zUI-tip.down:after{
+    top: -19px;
+    left: calc(50% - 9px);
+    border-right: 8px solid transparent;
+    border-left:8px solid transparent;
+    border-top:9px solid transparent;
+    border-bottom: 9px solid #0099ff;
+}
+
+.zUI-shadow.zUI-mask img{
+    position: relative;
+    content:url(../img/loading.gif);
+    left: calc(50% - 16px);
+    top: calc(50% - 16px);
+}
